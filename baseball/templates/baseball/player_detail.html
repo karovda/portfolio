@@ -1,0 +1,126 @@
+{% extends "baseball/baseball_base.html" %}
+
+{% block baseball_body %}
+
+<h2>{{ player.name }}</h2>
+
+<div id="batting-stats">
+    <h4>Batting</h4>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Year</th>    
+                <th scope="col">Team</th>
+                <th scope="col">G</th>   
+                <th scope="col">PA</th>
+                <th scope="col">wRC+</th>
+                <th scope="col">BsR</th>
+                <th scope="col">Off</th>
+                <th scope="col">Def</th>
+                <th scope="col">WAR</th>
+                <th scope="col">WAR/600</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for season in batting %}
+            <tr>
+                <th scope="row">{{ season.year }}</th>
+                <td>{{ season.team }}</td>
+                <td>{{ season.g }}</td>
+                <td>{{ season.pa }}</td>
+                <td>{{ season.wrc_plus }}</td>
+                <td class="border-start">{{ season.bsr }}</td>
+                <td>{{ season.off }}</td>
+                <td>{{ season.def_field }}</td>
+                <td class="table-active">{{ season.war }}</td>
+                <td>{{ season.war_per_600 }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <table class="table table-sm">
+        <thead>
+            <tr>
+                <th scope="col">Career WAR</th>
+                <th scope="col">Peak WAR</th>
+                <th scope="col">C&P WAR AVG</th>
+                <th scope="col">Career WAR/600</th>
+                <th scope="col">Peak WAR/600</th>
+                <th scope="col">C&P WAR/600</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ career.bat_career}}</td>
+                <td>{{ career.bat_peak}}</td>
+                <td>{{ career.bat_avg}}</td>
+                <td>{{ career.bat_rate_career}}</td>
+                <td>{{ career.bat_rate_peak}}</td>
+                <td>{{ career.bat_rate_avg}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div id="pitching-stats">
+    <h4>Pitching</h4>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Year</th>    
+                <th scope="col">Team</th>
+                <th scope="col">G</th>
+                <th scope="col">GS</th> 
+                <th scope="col">IP</th>
+                <th scope="col">K/9</th>
+                <th scope="col">BB/9</th>
+                <th scope="col">ERA</th>
+                <th scope="col">FIP</th>
+                <th scope="col">WAR</th>
+                <th scope="col">WAR/200</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for season in pitching %}
+            <tr>
+                <th scope="row">{{ season.year }}</th>
+                <td>{{ season.team }}</td>
+                <td>{{ season.g }}</td>
+                <td>{{ season.gs }}</td>
+                <td>{{ season.ip }}</td>
+                <td>{{ season.k_per_9 }}</td>
+                <td>{{ season.bb_per_9}}</td>
+                <td>{{ season.era }}</td>
+                <td>{{ season.fip }}</td>
+                <td>{{ season.war }}</td>
+                <td>{{ season.war_per_600 }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <table class="table table-sm">
+        <thead>
+            <tr>
+                <th scope="col">Career WAR</th>
+                <th scope="col">Peak WAR</th>
+                <th scope="col">C&P WAR AVG</th>
+                <th scope="col">Career WAR/200</th>
+                <th scope="col">Peak WAR/200</th>
+                <th scope="col">C&P WAR/200</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ career.pit_career}}</td>
+                <td>{{ career.pit_peak}}</td>
+                <td>{{ career.pit_avg}}</td>
+                <td>{{ career.pit_rate_career}}</td>
+                <td>{{ career.pit_rate_peak}}</td>
+                <td>{{ career.pit_rate_avg}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

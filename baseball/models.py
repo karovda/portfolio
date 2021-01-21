@@ -40,7 +40,9 @@ class Batters(models.Model):
     ev = models.FloatField(blank=True, null=True)
     bsr = models.FloatField(blank=True, null=True)
     off = models.FloatField(blank=True, null=True)
-    def_field = models.FloatField(db_column="def", blank=True, null=True)
+    def_field = models.FloatField(
+        db_column="def", blank=True, null=True
+    )  # Field renamed because it was a Python reserved word.
     war = models.FloatField(blank=True, null=True)
     war_per_600 = models.FloatField(blank=True, null=True)
     player = models.ForeignKey(
