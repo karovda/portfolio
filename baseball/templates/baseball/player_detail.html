@@ -5,6 +5,14 @@
 <h2>{{ player.name }}</h2>
 
 <div id="batting-stats">
+    <div class="row row-cols-auto">
+        <div class="col">
+            <button type="button" class="btn btn-primary" disabled>Batting</button>
+        </div>
+        <div class="col">
+            <button id="select-pitching-stats" type="button" class="btn btn-outline-primary">Pitching</button>
+        </div>
+    </div>
     <h4>Batting</h4>
     <table class="table table-hover">
         <thead>
@@ -42,28 +50,29 @@
     <table class="table table-sm">
         <thead>
             <tr>
-                <th scope="col">Career WAR</th>
-                <th scope="col">Peak WAR</th>
-                <th scope="col">C&P WAR AVG</th>
-                <th scope="col">Career WAR/600</th>
-                <th scope="col">Peak WAR/600</th>
-                <th scope="col">C&P WAR/600</th>
+                <th scope="col">fJAWS</th>
+                <th scope="col">fRateJAWS</th>
+
             </tr>
         </thead>
         <tbody>
             <tr>
-                <td>{{ career.bat_career}}</td>
-                <td>{{ career.bat_peak}}</td>
-                <td>{{ career.bat_avg}}</td>
-                <td>{{ career.bat_rate_career}}</td>
-                <td>{{ career.bat_rate_peak}}</td>
-                <td>{{ career.bat_rate_avg}}</td>
+                <td>{{ career.bat_career}}/{{ career.bat_peak}}/{{ career.bat_avg}}</td>
+                <td>{{ career.bat_rate_career}}/{{ career.bat_rate_peak}}/{{ career.bat_rate_avg}}</td>
             </tr>
         </tbody>
     </table>
 </div>
 
 <div id="pitching-stats">
+    <div class="row row-cols-auto">
+        <div class="col">
+            <button id="select-batting-stats" type="button" class="btn btn-outline-primary">Batting</button>
+        </div>
+        <div class="col">
+            <button type="button" class="btn btn-primary" disabled>Pitching</button>
+        </div>
+    </div>
     <h4>Pitching</h4>
     <table class="table table-hover">
         <thead>
@@ -94,7 +103,7 @@
                 <td>{{ season.era }}</td>
                 <td>{{ season.fip }}</td>
                 <td>{{ season.war }}</td>
-                <td>{{ season.war_per_600 }}</td>
+                <td>{{ season.war_per_200 }}</td>
             </tr>
             {% endfor %}
         </tbody>
@@ -102,22 +111,14 @@
     <table class="table table-sm">
         <thead>
             <tr>
-                <th scope="col">Career WAR</th>
-                <th scope="col">Peak WAR</th>
-                <th scope="col">C&P WAR AVG</th>
-                <th scope="col">Career WAR/200</th>
-                <th scope="col">Peak WAR/200</th>
-                <th scope="col">C&P WAR/200</th>
+                <th scope="col">fJAWS</th>
+                <th scope="col">fRateJAWS</th>
             </tr>
         </thead>
         <tbody>
             <tr>
-                <td>{{ career.pit_career}}</td>
-                <td>{{ career.pit_peak}}</td>
-                <td>{{ career.pit_avg}}</td>
-                <td>{{ career.pit_rate_career}}</td>
-                <td>{{ career.pit_rate_peak}}</td>
-                <td>{{ career.pit_rate_avg}}</td>
+                <td>{{ career.pit_career}}/{{ career.pit_peak}}/{{ career.pit_avg}}</td>
+                <td>{{ career.pit_rate_career}}/{{ career.pit_rate_peak}}/{{ career.pit_rate_avg}}</td>
             </tr>
         </tbody>
     </table>
