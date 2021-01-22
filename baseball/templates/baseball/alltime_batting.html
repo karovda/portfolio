@@ -1,0 +1,72 @@
+{% extends "baseball/baseball_base.html" %}
+
+{% block baseball_body %}
+
+{% if page_obj.has_other_pages %}
+    <nav>
+        <ul class="pagination">
+            {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a href="?page={{ page_obj.previous_page_number }}" class="page-link">&laquo;</a>
+                </li>
+            {% else %}
+                <li class="page-item disabled">
+                    <span class="page-link">&laquo;</span>
+                </li>
+            {% endif %}
+            {% for num in page_obj.paginator.page_range %}
+                {% if page_obj.number == num  %}
+                    <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+                {% else %}
+                    <li class="page-item"><a href="?page={{ num }}" class="page-link">{{ num }}</a></li>
+                {% endif %}
+            {% endfor %}
+            {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a href="?page={{ page_obj.next_page_number }}" class="page-link">&raquo;</a>
+                </li>
+            {% else %}
+                <li class="page-item disabled">
+                    <span class="page-link">&raquo;</span>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+{% endif %}
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Years Active</th>
+            <th scope="col">Total PA</th>
+            <th scope="col">Peak PA</th>
+            <th scope="col">Career WAR</th>
+            <th scope="col">WAR7</th>
+            <th scope="col">fJAWS</th>
+            <th scope="col">Career WAR/600</th>
+            <th scope="col">Peak7 WAR/600</th>
+            <th scope="col">fRateJAWS</th>
+        </tr>
+    </thead>
+    {% for player in page_obj %}
+        <tr>
+            <th scope="row">{{ player.player.name }}</th>
+            <td>Years Active?</td>
+            <td>{{ player.careers_pas }}</td>
+            <td>Peak PAs?</td>
+            <td>{{ player.bat_career }}</td>
+            <td>{{ player.bat_peak }}</td>
+            <td>{{ player.bat_avg }}</td>
+            <td>{{ player.bat_rate_career }}</td>
+            <td>{{ player.bat_rate_peak }}</td>
+            <td>{{ player.bat_rate_avg }}</td>
+
+        </tr>
+    {% endfor %}
+</table>
+
+
+
+
+{% endblock %}
