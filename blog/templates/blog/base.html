@@ -13,25 +13,67 @@
     <script defer src="{% static 'blog/JS/bootstrap.bundle.min.js' %}"></script>
     <link rel="stylesheet" href="{% static 'blog/css/style.css' %}">
     <script defer src="{% static 'blog/JS/main.js' %}"></script>
-    <title>Document</title>
+
+  {% block title %}
+
+    <title>Testing, Testing</title>
+
+  {% endblock %}
+
 </head>
 <body>
   <div class="container">
-    <h1 class="text-primary">Hello World!</h1>
-    <div class="dropdown">
-        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-          Dropdown button
-        </button>
-        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-          <li><a class="dropdown-item" href="#">Action</a></li>
-          <li><a class="dropdown-item" href="#">Another action</a></li>
-          <li><a class="dropdown-item" href="#">Something else here</a></li>
-        </ul>
-      </div>
+
+    <h1 class="text-primary d-flex justify-content-center">Hello World!</h1>
+
+    <div class="container d-flex justify-content-center">
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+              {% url 'blog:home' as home_url %}
+              <li class="nav-item">
+                <a 
+                {% if request.path == home_url %}
+                class="nav-link active disabled"
+                {% else %}
+                class="nav-link"
+                {% endif %}
+                href="{{ home_url }}">Home</a>
+              </li>
+              {% url 'baseball:baseball-home' as bb_url %}
+              <li class="nav-item">
+                <a 
+                {% if request.path == bb_url %}
+                class="nav-link active disabled"
+                {% else %}
+                class="nav-link"
+                {% endif %}
+                href="{{ bb_url }}">Baseball</a>
+              </li>
+              
+              {% block navbar %}
+
+              {% endblock %}
+
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </div>
+
+    
 
 {% block body %}
 
+<br>
+<h2 class="d-flex justify-content-center text-warning">Home Sweet Home</h2>
+
 {% endblock %}
+
   </div>
 </body>
 </html>
