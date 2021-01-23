@@ -1,0 +1,105 @@
+{% extends "baseball/baseball_base.html" %}
+
+{% block baseball_body %}
+
+{% if batting %}
+<br>
+<h4 class="d-flex justify-content-center">
+  {% if career %}
+  All-time 
+  {% else %}
+  Active 
+  {% endif %}
+  Batting Leaders
+</h4>
+{% include "baseball/paginator.html" %}
+<table class="table table-hover table-sm">
+  <thead>
+    <tr>
+      <th scope="col"></th>
+      <th scope="col">Name</th>
+      <th scope="col">Years Active</th>
+      <th scope="col">Total PA</th>
+      <th scope="col">Peak PA</th>
+      <th scope="col">Career WAR</th>
+      <th scope="col">WAR7</th>
+      <th scope="col">fJAWS</th>
+      <th scope="col">Career WAR/600</th>
+      <th scope="col">Peak7 WAR/600</th>
+      <th scope="col">fRateJAWS</th>
+    </tr>
+  </thead>
+
+  {% for player in page_obj %}
+  <tr>
+    <td scope="row">{{ forloop.counter0|add:page_obj.start_index }}</td>
+    <td>
+      <a href="{% url 'baseball:player-detail' player.player.id %}" class="fw-bold text-body text-decoration-none">
+        {{ player.player.name }}
+      </a>
+    </td>
+    <td>Years Active?</td>
+    <td>{{ player.careers_pas }}</td>
+    <td>Peak PAs?</td>
+    <td>{{ player.bat_career }}</td>
+    <td>{{ player.bat_peak }}</td>
+    <td>{{ player.bat_avg }}</td>
+    <td>{{ player.bat_rate_career }}</td>
+    <td>{{ player.bat_rate_peak }}</td>
+    <td>{{ player.bat_rate_avg }}</td>
+  </tr>
+  {% endfor %}
+</table>
+{% else %}
+<br>
+<h4 class="d-flex justify-content-center">
+  {% if career %}
+  All-time
+  {% else %}
+  Active
+  {% endif %}
+  Pitching Leaders
+</h4>
+{% include "baseball/paginator.html" %}
+<table class="table table-hover table-sm">
+  <thead>
+    <tr>
+      <th scope="col"></th>
+      <th scope="col">Name</th>
+      <th scope="col">Years Active</th>
+      <th scope="col">Total IP</th>
+      <th scope="col">Peak IP</th>
+      <th scope="col">Career WAR</th>
+      <th scope="col">WAR7</th>
+      <th scope="col">fJAWS</th>
+      <th scope="col">Career WAR/200</th>
+      <th scope="col">Peak7 WAR/200</th>
+      <th scope="col">fRateJAWS</th>
+    </tr>
+  </thead>
+  {% for player in page_obj %}
+  <tr>
+    <td scope="row">{{ forloop.counter0|add:page_obj.start_index }}</td>
+    <td>
+      <a href="{% url 'baseball:player-detail' player.player.id %}" class="fw-bold text-body text-decoration-none">
+        {{ player.player.name }}
+      </a>
+    </td>
+    <td>Years Active?</td>
+    <td>{{ player.career_ip }}</td>
+    <td>Peak IP?</td>
+    <td>{{ player.pit_career }}</td>
+    <td>{{ player.pit_peak }}</td>
+    <td>{{ player.pit_avg }}</td>
+    <td>{{ player.pit_rate_career }}</td>
+    <td>{{ player.pit_rate_peak }}</td>
+    <td>{{ player.pit_rate_avg }}</td>
+  </tr>
+  {% endfor %}
+</table>
+
+{% endif %}
+
+{% include "baseball/paginator.html" %}
+
+{% endblock %}
