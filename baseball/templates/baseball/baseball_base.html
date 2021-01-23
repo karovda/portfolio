@@ -1,10 +1,55 @@
 {% extends "blog/base.html" %}
 
+{% block navbar %}
+
+<li class="nav-item dropdown">
+  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+    aria-expanded="false">
+    Leaderboards
+  </a>
+  <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+    <li><span class="dropdown-item disabled text-body d-flex justify-content-center">
+        Batting:
+      </span></li>
+    <ul class="list-group list-group-horizontal-sm">
+      <li><a class="dropdown-item list-group-item border-0" href="{% url 'baseball:leaderboards' 'career' 'batting' %}">
+          Career
+        </a></li>
+      <li><a class="dropdown-item list-group-item border-0" href="#">
+          Active
+        </a></li>
+    </ul>
+    <li>
+      <hr class="dropdown-divider">
+    </li>
+    <li><span class="dropdown-item disabled text-body d-flex justify-content-center">
+        Pitching:
+      </span></li>
+    <ul class="list-group list-group-horizontal-sm">
+      <li><a class="dropdown-item list-group-item border-0"
+          href="{% url 'baseball:leaderboards' 'career' 'pitching' %}">
+          Career
+        </a></li>
+      <li><a class="dropdown-item list-group-item border-0" href="#">
+          Active
+        </a></li>
+    </ul>
+  </ul>
+</li>
+<form class="d-flex">
+  <input class="form-control me-2" type="search" placeholder="Player Search" aria-label="Search">
+  <button class="btn btn-outline-primary btn-sm" type="submit">Search</button>
+</form>
+
+{% endblock %}
+
 {% block body %}
-<br>
-<p>Baseball Home</p>
 
 {% block baseball_body %}
+
+<br>
+<h2 class="d-flex justify-content-center text-danger">Baseball Home</h2>
+
 {% endblock %}
 
 {% endblock %}
