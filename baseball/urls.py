@@ -10,5 +10,6 @@ urlpatterns = [
         views.leaderboards,
         name="leaderboards",
     ),
+    path("search/", views.player_search, name="player-search"),
     path("player/<int:num>", views.player_detail, name="player-detail"),
 ]
