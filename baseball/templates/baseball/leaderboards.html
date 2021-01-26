@@ -34,7 +34,7 @@
   <tr>
     <td scope="row">{{ forloop.counter0|add:page_obj.start_index }}</td>
     <td>
-      <a href="{% url 'baseball:player-detail' player.player.id %}" class="fw-bold text-body text-decoration-none">
+      <a href="{{ player.player.get_absolute_url }}" class="fw-bold text-body text-decoration-none">
         {{ player.player.name }}
       </a>
     </td>
@@ -81,7 +81,7 @@
   <tr>
     <td scope="row">{{ forloop.counter0|add:page_obj.start_index }}</td>
     <td>
-      <a href="{% url 'baseball:player-detail' player.player.id %}" class="fw-bold text-body text-decoration-none">
+      <a href="{{ player.player.get_absolute_url }}" class="fw-bold text-body text-decoration-none">
         {{ player.player.name }}
       </a>
     </td>
