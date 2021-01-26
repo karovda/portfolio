@@ -1,7 +1,10 @@
-from django.shortcuts import render
-from django.core.paginator import Paginator
-from django.http import Http404
+import json
 
+from django.core.paginator import Paginator
+from django.http import Http404, JsonResponse
+from django.shortcuts import render
+
+from .forms import PlayerSearchForm
 from .models import Batters, CareerStats, Pitchers, PlayerInfo
 
 
@@ -24,6 +27,12 @@ def player_detail(request, num):
 
 
 def leaderboards(request, when_player, player_type):
+    """
+    This function takes two arguments each with only two acceptable inputs
+    creating 4 possible outcomes. when_player can be either 'career' or 'current'
+    and player_type can be 'batting' or 'pitching'.
+    Any input not listed here will result in a 404 response.
+    """
     career = False
     if when_player == "career":
         career = True
@@ -63,5 +72,42 @@ def leaderboards(request, when_player, player_type):
             "page_obj": page_obj,
             "batting": batting,
             "career": career,
+        },
+    )
+
+
+def player_search(request):
+    form = PlayerSearchForm()
+    query = ""
+    results = []
+
+    # POST here is initiated by the js fetch request.
+    # It returns results to be listed in a dropdown area.
+    if request.method == "POST":
+        data = json.loads(request.body)
+        search_string = data["ss"]
+
+        if search_string is not None:
+            dropdown_results = PlayerInfo.objects.filter(name__icontains=search_string)[
+                :5
+            ]
+            # Run the custom serialize function on each result.
+            return JsonResponse(
+                [result.serialize() for result in dropdown_results], safe=False
+            )
+
+    if "q" in request.GET:
+        form = PlayerSearchForm(request.GET)
+        if form.is_valid():
+            query = form.cleaned_data["q"]
+            results = PlayerInfo.objects.filter(name__icontains=query)
+
+    return render(
+        request,
+        "search.html",
+        {
+            "form": form,
+            "q": query,
+            "results": results,
         },
     )
