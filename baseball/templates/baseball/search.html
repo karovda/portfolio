@@ -1,0 +1,36 @@
+{% extends "baseball/baseball_base.html" %}
+
+{% block title %}
+Player Search {% if q %} - {{ q }} {% endif %}
+{% endblock %}
+
+{% block baseball_body %}
+
+{% if q %}
+<div>
+    <p class="lead">Players containing "{{ q }}"</p>
+    <p>
+        {% with results.count as total_results %}
+        Found {{ total_results }} result{{ total_results|pluralize }}
+        {% endwith %}
+    </p>
+    <ul>
+        {% for player in results %}
+        <li>
+            <a href="{{ player.get_absolute_url }}">{{ player.name }}</a>
+        </li>
+        {% empty %}
+        <p>There are no results for your query.</p>
+        {% endfor %}
+    </ul>
+</div>
+{% else %}
+<div>
+    <br>
+    <p class="d-flex justify-content-center">
+        Enter your search in the 'Player Search' field above.
+    </p>
+</div>
+{% endif %}
+
+{% endblock %}
