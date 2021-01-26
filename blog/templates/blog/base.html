@@ -10,15 +10,15 @@
     <link rel="stylesheet" href="{% static 'blog/css/bootstrap-reboot.min.css' %}">
     <link rel="stylesheet" href="{% static 'blog/css/bootstrap-grid.min.css' %}">
     <link rel="stylesheet" href="{% static 'blog/css/bootstrap-utilities.min.css' %}">
-    <script defer src="{% static 'blog/JS/bootstrap.bundle.min.js' %}"></script>
+    <script defer src="{% static 'blog/js/bootstrap.bundle.min.js' %}"></script>
     <link rel="stylesheet" href="{% static 'blog/css/style.css' %}">
-    <script defer src="{% static 'blog/JS/main.js' %}"></script>
+    <script defer src="{% static 'blog/js/main.js' %}"></script>
 
-  {% block title %}
-
-    <title>Testing, Testing</title>
-
-  {% endblock %}
+    <title>
+    {% block title %}
+      Testing, Testing
+    {% endblock %}
+    </title>
 
 </head>
 <body>
