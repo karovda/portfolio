@@ -1,5 +1,11 @@
 {% extends "blog/base.html" %}
 
+{% block title %}
+
+Baseball Home
+
+{% endblock %}
+
 {% block navbar %}
 
 <li class="nav-item dropdown">
@@ -8,24 +14,24 @@
     Leaderboards
   </a>
   <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-    <li><span class="dropdown-item disabled text-body d-flex justify-content-center">
+    <li><h6 class="dropdown-header d-flex justify-content-center">
         Batting:
-      </span></li>
-    <ul class="list-group list-group-horizontal-sm">
+    </h6></li>
+    <div class="list-group list-group-horizontal-sm">
       <li><a class="dropdown-item list-group-item border-0" href="{% url 'baseball:leaderboards' 'career' 'batting' %}">
           Career
         </a></li>
       <li><a class="dropdown-item list-group-item border-0" href="#">
           Active
         </a></li>
-    </ul>
+      </div>
     <li>
       <hr class="dropdown-divider">
     </li>
-    <li><span class="dropdown-item disabled text-body d-flex justify-content-center">
+    <li><h6 class="dropdown-header d-flex justify-content-center">
         Pitching:
-      </span></li>
-    <ul class="list-group list-group-horizontal-sm">
+    </h6></li>
+    <div class="list-group list-group-horizontal-sm">
       <li><a class="dropdown-item list-group-item border-0"
           href="{% url 'baseball:leaderboards' 'career' 'pitching' %}">
           Career
@@ -33,12 +39,12 @@
       <li><a class="dropdown-item list-group-item border-0" href="#">
           Active
         </a></li>
-    </ul>
+      </div>
   </ul>
 </li>
-<form class="d-flex">
-  <input class="form-control me-2" type="search" placeholder="Player Search" aria-label="Search">
-  <button class="btn btn-outline-primary btn-sm" type="submit">Search</button>
+<form class="d-flex" action="{% url 'baseball:player-search' %}" method="get">
+  <input class="form-control" name="q" id="id_q" type="search" placeholder="Player Search" aria-label="Search" autocomplete="off" data-bs-toggle="dropdown">
+  <ul class="dropdown-menu dropdown-menu-end" id="search_dropdown_list"></ul>
 </form>
 
 {% endblock %}
@@ -51,5 +57,71 @@
 <h2 class="d-flex justify-content-center text-danger">Baseball Home</h2>
 
 {% endblock %}
+
+<script defer>
+  document.addEventListener('DOMContentLoaded', function () {
+      document.querySelector('#id_q').addEventListener('keyup', () => dropdown());
+  });
+
+  function getCookie(name) {
+      let cookieValue = null;
+      if (document.cookie && document.cookie !== '') {
+          const cookies = document.cookie.split(';');
+          for (let i = 0; i < cookies.length; i++) {
+              const cookie = cookies[i].trim();
+              // Does this cookie string begin with the name we want?
+              if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                  cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                  break;
+              }
+          }
+      }
+      return cookieValue;
+  }
+
+  function dropdown(event) {
+      // id_q is the id automatically created by the django form
+      const queryString = document.querySelector('#id_q').value;
+      let results = []
+
+      // Use previous function getCookie to get csrftoken
+      const csrftoken = getCookie('csrftoken');
+
+      // Don't ping server until at least 3 characters are entered
+      if (queryString.length >= 3) {
+
+          fetch('{% url "baseball:player-search" %}', {
+                  method: 'POST',
+                  credentials: 'same-origin',
+                  headers: {
+                      "X-CSRFToken": csrftoken,
+                  },
+                  body: JSON.stringify({
+                      ss: queryString,
+                  })
+              })
+              .then(response => response.json())
+              .then(data => {
+                  // Adds a dropdown-styled link for each result, displays the result's name
+                  for (const num in data) {
+                      results.push('<li><a class="dropdown-item" href="/baseball/player/' +
+                          data[num].id + '">' + data[num].name + '</a></li>')
+                  }
+
+
+                  // Shows the dropdown if user clicks in the search field a 2nd time.
+                  if (!document.querySelectorAll(".show")[0]) {
+                      let search_field = document.querySelector(".menudd");
+                      search_field.click()
+                  }
+
+                  // Adds the results to the dropdown menu, or a no result string if no results
+                  document.querySelector('#search_dropdown_list').innerHTML = (!results.length) ?
+                      "No results" : results.join('');
+              })
+      };
+
+  };
+</script>
 
 {% endblock %}
