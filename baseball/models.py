@@ -13,6 +13,8 @@ class PlayerInfo(models.Model):
     id = models.IntegerField(primary_key=True)
     name = models.TextField(blank=True, null=True)
     fplayerid = models.IntegerField(blank=True, null=True)
+    first_year = models.IntegerField(blank=True, null=True)
+    last_year = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False
@@ -22,7 +24,12 @@ class PlayerInfo(models.Model):
         return reverse("baseball:player-detail", args=[str(self.id)])
 
     def serialize(self):
-        return {"id": self.id, "name": self.name}
+        return {
+            "id": self.id,
+            "name": self.name,
+            "first_year": self.first_year,
+            "last_year": self.last_year,
+        }
 
 
 class Batters(models.Model):
@@ -95,10 +102,12 @@ class Pitchers(models.Model):
 
 class CareerStats(models.Model):
     id = models.IntegerField(primary_key=True)
+    default_batting = models.IntegerField(blank=True, null=True)
     bat_career = models.FloatField(blank=True, null=True)
     bat_peak = models.FloatField(blank=True, null=True)
     bat_avg = models.FloatField(blank=True, null=True)
-    careers_pas = models.FloatField(blank=True, null=True)
+    career_pas = models.IntegerField(blank=True, null=True)
+    peak_pas = models.IntegerField(blank=True, null=True)
     bat_rate_career = models.FloatField(blank=True, null=True)
     bat_rate_peak = models.FloatField(blank=True, null=True)
     bat_rate_avg = models.FloatField(blank=True, null=True)
@@ -106,6 +115,7 @@ class CareerStats(models.Model):
     pit_peak = models.FloatField(blank=True, null=True)
     pit_avg = models.FloatField(blank=True, null=True)
     career_ip = models.FloatField(blank=True, null=True)
+    peak_ip = models.FloatField(blank=True, null=True)
     pit_rate_career = models.FloatField(blank=True, null=True)
     pit_rate_peak = models.FloatField(blank=True, null=True)
     pit_rate_avg = models.FloatField(blank=True, null=True)
