@@ -1,8 +1,10 @@
 import json
 
 from django.core.paginator import Paginator
+from django.db.models import Q
 from django.http import Http404, JsonResponse
 from django.shortcuts import render
+from django.views.decorators.csrf import csrf_exempt
 
 from .forms import PlayerSearchForm
 from .models import Batters, CareerStats, Pitchers, PlayerInfo
@@ -45,18 +47,40 @@ def leaderboards(request, when_player, player_type):
 
     batting = False
 
+    players = CareerStats.objects.select_related("player")
+
     if player_type == "batting":
         batting = True
         if career:
-            players = CareerStats.objects.select_related("player").order_by(
-                "-bat_career"
-            )[:500]
+            players = players.filter(bat_career__gte=20).order_by(
+                "-bat_career", "player"
+            )
+        else:
+            actives = PlayerInfo.objects.filter(last_year__in=[2019, 2020]).values_list(
+                "id", flat=True
+            )
+            players = (
+                players.filter(player__in=actives)
+                .filter(career_pas__gte=500)
+                .order_by("-bat_career", "player")
+            )
+
     elif player_type == "pitching":
         batting = False
         if career:
-            players = CareerStats.objects.select_related("player").order_by(
-                "-pit_career"
-            )[:500]
+            players = players.filter(pit_career__gte=20).order_by(
+                "-pit_career", "player"
+            )
+        else:
+            actives = PlayerInfo.objects.filter(last_year__in=[2019, 2020]).values_list(
+                "id", flat=True
+            )
+            players = (
+                players.filter(player__in=actives)
+                .filter(career_ip__gte=150)
+                .order_by("-pit_career", "player")
+            )
+
     else:
         raise Http404(
             "Try again with either batting or pitching in /baseball/career-{player_type}-leaders"
@@ -76,10 +100,8 @@ def leaderboards(request, when_player, player_type):
     )
 
 
+@csrf_exempt
 def player_search(request):
-    form = PlayerSearchForm()
-    query = ""
-    results = []
 
     # POST here is initiated by the js fetch request.
     # It returns results to be listed in a dropdown area.
@@ -89,12 +111,16 @@ def player_search(request):
 
         if search_string is not None:
             dropdown_results = PlayerInfo.objects.filter(name__icontains=search_string)[
-                :5
+                :10
             ]
             # Run the custom serialize function on each result.
             return JsonResponse(
                 [result.serialize() for result in dropdown_results], safe=False
             )
+
+    form = PlayerSearchForm()
+    query = ""
+    results = []
 
     if "q" in request.GET:
         form = PlayerSearchForm(request.GET)
