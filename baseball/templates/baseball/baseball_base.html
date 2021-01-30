@@ -14,37 +14,43 @@ Baseball Home
     Leaderboards
   </a>
   <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-    <li><h6 class="dropdown-header d-flex justify-content-center">
+    <li>
+      <h6 class="dropdown-header d-flex justify-content-center">
         Batting:
-    </h6></li>
+      </h6>
+    </li>
     <div class="list-group list-group-horizontal-sm">
       <li><a class="dropdown-item list-group-item border-0" href="{% url 'baseball:leaderboards' 'career' 'batting' %}">
           Career
         </a></li>
-      <li><a class="dropdown-item list-group-item border-0" href="#">
+      <li><a class="dropdown-item list-group-item border-0" href="{% url 'baseball:leaderboards' 'current' 'batting' %}">
           Active
         </a></li>
-      </div>
+    </div>
     <li>
       <hr class="dropdown-divider">
     </li>
-    <li><h6 class="dropdown-header d-flex justify-content-center">
+    <li>
+      <h6 class="dropdown-header d-flex justify-content-center">
         Pitching:
-    </h6></li>
+      </h6>
+    </li>
     <div class="list-group list-group-horizontal-sm">
       <li><a class="dropdown-item list-group-item border-0"
           href="{% url 'baseball:leaderboards' 'career' 'pitching' %}">
           Career
         </a></li>
-      <li><a class="dropdown-item list-group-item border-0" href="#">
+      <li><a class="dropdown-item list-group-item border-0" href="{% url 'baseball:leaderboards' 'current' 'pitching' %}">
           Active
         </a></li>
-      </div>
+    </div>
   </ul>
 </li>
 <form class="d-flex" action="{% url 'baseball:player-search' %}" method="get">
-  <input class="form-control" name="q" id="id_q" type="search" placeholder="Player Search" aria-label="Search" autocomplete="off" data-bs-toggle="dropdown">
-  <ul class="dropdown-menu dropdown-menu-end" id="search_dropdown_list"></ul>
+  <input class="form-control" name="q" id="id_q" type="search" placeholder="Player Search" aria-label="Search"
+    autocomplete="off" data-bs-toggle="dropdown">
+  <ul class="dropdown-menu dropdown-menu-end" id="search_dropdown_list">
+  </ul>
 </form>
 
 {% endblock %}
@@ -60,66 +66,104 @@ Baseball Home
 
 <script defer>
   document.addEventListener('DOMContentLoaded', function () {
-      document.querySelector('#id_q').addEventListener('keyup', () => dropdown());
+    document.querySelector('#id_q').addEventListener('keyup', () => dropdown());
   });
 
   function getCookie(name) {
-      let cookieValue = null;
-      if (document.cookie && document.cookie !== '') {
-          const cookies = document.cookie.split(';');
-          for (let i = 0; i < cookies.length; i++) {
-              const cookie = cookies[i].trim();
-              // Does this cookie string begin with the name we want?
-              if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                  cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                  break;
-              }
-          }
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+      const cookies = document.cookie.split(';');
+      for (let i = 0; i < cookies.length; i++) {
+        const cookie = cookies[i].trim();
+        // Does this cookie string begin with the name we want?
+        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+          break;
+        }
       }
-      return cookieValue;
+    }
+    return cookieValue;
   }
 
   function dropdown(event) {
-      // id_q is the id automatically created by the django form
-      const queryString = document.querySelector('#id_q').value;
-      let results = []
-
-      // Use previous function getCookie to get csrftoken
-      const csrftoken = getCookie('csrftoken');
-
-      // Don't ping server until at least 3 characters are entered
-      if (queryString.length >= 3) {
-
-          fetch('{% url "baseball:player-search" %}', {
-                  method: 'POST',
-                  credentials: 'same-origin',
-                  headers: {
-                      "X-CSRFToken": csrftoken,
-                  },
-                  body: JSON.stringify({
-                      ss: queryString,
-                  })
-              })
-              .then(response => response.json())
-              .then(data => {
-                  // Adds a dropdown-styled link for each result, displays the result's name
-                  for (const num in data) {
-                      results.push('<li><a class="dropdown-item" href="/baseball/player/' +
-                          data[num].id + '">' + data[num].name + '</a></li>')
-                  }
+    // id_q is the id automatically created by the django form
+    const queryString = document.querySelector('#id_q').value;
 
 
-                  // Shows the dropdown if user clicks in the search field a 2nd time.
-                  if (!document.querySelectorAll(".show")[0]) {
-                      let search_field = document.querySelector(".menudd");
-                      search_field.click()
-                  }
+    // Use previous function getCookie to get csrftoken
+    const csrftoken = getCookie('csrftoken');
 
-                  // Adds the results to the dropdown menu, or a no result string if no results
-                  document.querySelector('#search_dropdown_list').innerHTML = (!results.length) ?
-                      "No results" : results.join('');
-              })
-      };
+    // Don't ping server until at least 3 characters are entered
+    if (queryString.length >= 3) {
+
+      fetch('{% url "baseball:player-search" %}', {
+          method: 'POST',
+          credentials: 'same-origin',
+          headers: {
+            "X-CSRFToken": csrftoken,
+          },
+          body: JSON.stringify({
+            ss: queryString,
+          })
+        })
+        .then(response => response.json())
+        .then(data => {
+          let results = []
+          // Adds a dropdown-styled link for each result, displays the result's name
+          for (const num in data) {
+            const eachPlayer = document.createElement('li');
+
+            const innerList = document.createElement('ul');
+            innerList.setAttribute('class', 'list-group list-group-horizontal d-flex justify-content-between');
+
+            const playerName = document.createElement('li');
+            playerName.setAttribute('class', 'list-group-item border-0');
+
+            const playerLink = document.createElement('a');
+            playerLink.setAttribute('class', 'dropdown-item')
+            const link = `/baseball/player/${data[num].id}`;
+            playerLink.setAttribute('href', link);
+            playerLink.textContent = data[num].name;
+
+            playerName.appendChild(playerLink);
+
+            const playerYears = document.createElement('li');
+            playerYears.setAttribute('class', 'list-group-item border-0');
+
+            const yearsSpan = document.createElement('span');
+            yearsSpan.textContent = `${data[num].first_year} - ${data[num].last_year}`;
+
+            playerYears.appendChild(yearsSpan);
+
+            innerList.appendChild(playerName);
+            innerList.appendChild(playerYears);
+
+            eachPlayer.appendChild(innerList);
+
+            results.push(eachPlayer);
+
+          }
+
+          // Shows the dropdown if user clicks in the search field a 2nd time.
+          if (!document.querySelectorAll(".show")[0]) {
+            let search_field = document.querySelector(".menudd");
+            search_field.click()
+          }
+
+          const searchDropdown = document.querySelector('#search_dropdown_list')
+          // Resets dropdown results so they don't keep adding on
+          searchDropdown.innerHTML = ""
+
+          // Adds the results to the dropdown menu
+          if (results.length > 0) {
+            results.forEach(result => {
+              searchDropdown.appendChild(result)
+            })
+          } else {
+            searchDropdown.textContent = "No Results"
+          }
+        });
+    };
 
   };
 </script>
