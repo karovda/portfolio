@@ -22,7 +22,7 @@
       <th scope="col">Total PA</th>
       <th scope="col">Peak PA</th>
       <th scope="col">Career WAR</th>
-      <th scope="col">WAR7</th>
+      <th data-bs-toggle="tooltip" data-bs-placement="auto" title="Do you see this?" scope="col">WAR7</th>
       <th scope="col">fJAWS</th>
       <th scope="col">Career WAR/600</th>
       <th scope="col">Peak7 WAR/600</th>
@@ -38,9 +38,9 @@
         {{ player.player.name }}
       </a>
     </td>
-    <td>Years Active?</td>
-    <td>{{ player.careers_pas }}</td>
-    <td>Peak PAs?</td>
+    <td>{{ player.player.first_year }} - {{ player.player.last_year }}</td>
+    <td>{{ player.career_pas }}</td>
+    <td>{{ player.peak_pas }}</td>
     <td>{{ player.bat_career }}</td>
     <td>{{ player.bat_peak }}</td>
     <td>{{ player.bat_avg }}</td>
@@ -85,9 +85,9 @@
         {{ player.player.name }}
       </a>
     </td>
-    <td>Years Active?</td>
+    <td>{{ player.player.first_year }} - {{ player.player.last_year }}</td>
     <td>{{ player.career_ip }}</td>
-    <td>Peak IP?</td>
+    <td>{{ player.peak_ip }}</td>
     <td>{{ player.pit_career }}</td>
     <td>{{ player.pit_peak }}</td>
     <td>{{ player.pit_avg }}</td>

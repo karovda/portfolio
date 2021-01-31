@@ -17,7 +17,15 @@ Player Search {% if q %} - {{ q }} {% endif %}
     <ul>
         {% for player in results %}
         <li>
-            <a href="{{ player.get_absolute_url }}">{{ player.name }}</a>
+            <ul class="list-group list-group-horizontal">
+                <li class="list-group-item">
+                    <a href="{{ player.get_absolute_url }}">{{ player.name }}</a>
+                </li>
+                <li class="list-group-item">
+                    <span>{{ player.first_year }} - {{ player.last_year }}</span>
+                </li>
+            </ul>
+            
         </li>
         {% empty %}
         <p>There are no results for your query.</p>
