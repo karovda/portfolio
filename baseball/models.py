@@ -126,3 +126,23 @@ class CareerStats(models.Model):
     class Meta:
         managed = False
         db_table = "career_stats"
+
+
+class StatDescriptions(models.Model):
+    description_type = models.TextField(blank=False, null=False)
+    bat_career = models.TextField(blank=False, null=False)
+    bat_peak = models.TextField(blank=False, null=False)
+    bat_avg = models.TextField(blank=False, null=False)
+    bat_rate_career = models.TextField(blank=False, null=False)
+    bat_rate_peak = models.TextField(blank=False, null=False)
+    bat_rate_avg = models.TextField(blank=False, null=False)
+    pit_career = models.TextField(blank=False, null=False)
+    pit_peak = models.TextField(blank=False, null=False)
+    pit_avg = models.TextField(blank=False, null=False)
+    pit_rate_career = models.TextField(blank=False, null=False)
+    pit_rate_peak = models.TextField(blank=False, null=False)
+    pit_rate_avg = models.TextField(blank=False, null=False)
+
+    class Meta:
+        managed = True
+        db_table = "stat_descriptions"
