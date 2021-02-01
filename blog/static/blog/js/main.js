@@ -4,12 +4,12 @@ document.addEventListener('DOMContentLoaded', function () {
 })
 
 function showPitchingStats() {
-    document.querySelector('#batting-stats').style.display = "none";
-    document.querySelector('#pitching-stats').style.display = "block";
+    document.querySelector('.batting-stats').style.display = "none";
+    document.querySelector('.pitching-stats').style.display = "block";
 }
 
 function showBattingStats() {
-    document.querySelector('#batting-stats').style.display = "block";
-    document.querySelector('#pitching-stats').style.display = "none";
+    document.querySelector('.batting-stats').style.display = "block";
+    document.querySelector('.pitching-stats').style.display = "none";
 }
 

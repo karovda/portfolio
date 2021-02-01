@@ -6,15 +6,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <link rel="stylesheet" href="{% static 'blog/css/bootstrap.min.css' %}">
-  <link rel="stylesheet" href="{% static 'blog/css/bootstrap-reboot.min.css' %}">
-  <link rel="stylesheet" href="{% static 'blog/css/bootstrap-grid.min.css' %}">
-  <link rel="stylesheet" href="{% static 'blog/css/bootstrap-utilities.min.css' %}">
+  <link rel="stylesheet" href="{% static 'scss/style.css' %}">
   <script defer src="{% static 'blog/js/bootstrap.bundle.min.js' %}"></script>
-  <link rel="stylesheet" href="{% static 'blog/css/style.css' %}">
   <script defer src="{% static 'blog/js/main.js' %}"></script>
-
   <title>
     {% block title %}
     Testing, Testing
@@ -23,45 +17,46 @@
 
 </head>
 
-<body>
-  <h1 class="text-primary d-flex justify-content-center">Hello World!</h1>
+<body >
+  <div class="bg-dark min-vh-100">
+    <div class="container bg-white min-vh-100">
+      <h1 class="text-secondary d-flex justify-content-center">Hello World!</h1>
+      <div class="container d-flex justify-content-center">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+          <div class="container-fluid">
+            <div class="collapse navbar-collapse" id="navbarNav">
+              <ul class="navbar-nav">
+                {% url 'blog:home' as home_url %}
+                <li class="nav-item">
+                  <a {% if request.path == home_url %} class="nav-link active disabled" {% else %} class="nav-link"
+                    {% endif %} href="{{ home_url }}">Home</a>
+                </li>
+                {% url 'baseball:baseball-home' as bb_url %}
+                <li class="nav-item">
+                  <a {% if request.path == bb_url %} class="nav-link active disabled" {% else %} class="nav-link"
+                    {% endif %} href="{{ bb_url }}">Baseball</a>
+                </li>
 
-  <div class="container d-flex justify-content-center">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <div class="container-fluid">
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav">
-            {% url 'blog:home' as home_url %}
-            <li class="nav-item">
-              <a {% if request.path == home_url %} class="nav-link active disabled" {% else %} class="nav-link"
-                {% endif %} href="{{ home_url }}">Home</a>
-            </li>
-            {% url 'baseball:baseball-home' as bb_url %}
-            <li class="nav-item">
-              <a {% if request.path == bb_url %} class="nav-link active disabled" {% else %} class="nav-link"
-                {% endif %} href="{{ bb_url }}">Baseball</a>
-            </li>
+                {% block navbar %}
 
-            {% block navbar %}
+                {% endblock %}
 
-            {% endblock %}
-
-          </ul>
-        </div>
+              </ul>
+            </div>
+          </div>
+        </nav>
       </div>
-    </nav>
-  </div>
+      <div class="container">
 
-  <div class="container">
+        {% block body %}
 
-    {% block body %}
+        <br>
+        <h2 class="d-flex justify-content-center text-warning">Home Sweet Home</h2>
 
-    <br>
-    <h2 class="d-flex justify-content-center text-warning">Home Sweet Home</h2>
+        {% endblock %}
 
-    {% endblock %}
-
+      </div>
+    </div>
   </div>
 </body>
-
 </html>

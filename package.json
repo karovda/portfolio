@@ -1,0 +1,24 @@
+{
+  "name": "portfolio",
+  "version": "1.0.0",
+  "description": "first personal portfolio",
+  "main": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/karovda/portfolio.git"
+  },
+  "author": "Tim Martin",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/karovda/portfolio/issues"
+  },
+  "homepage": "https://github.com/karovda/portfolio#readme",
+  "dependencies": {
+    "@popperjs/core": "^2.6.0",
+    "bootstrap": "^5.0.0-beta1",
+    "sass": "^1.32.5"
+  }
+}
