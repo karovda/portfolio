@@ -7,7 +7,7 @@ from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 
 from .forms import PlayerSearchForm
-from .models import Batters, CareerStats, Pitchers, PlayerInfo
+from .models import Batters, CareerStats, Pitchers, PlayerInfo, StatDescriptions
 
 
 def baseball_home(request):
@@ -24,6 +24,8 @@ def player_detail(request, num):
             "batting": Batters.objects.filter(player=num).order_by("-year"),
             "pitching": Pitchers.objects.filter(player=num).order_by("-year"),
             "career": CareerStats.objects.get(player=num),
+            "table_headers": StatDescriptions.objects.get(pk=1),
+            "tool_tips": StatDescriptions.objects.get(pk=2),
         },
     )
 
@@ -86,6 +88,8 @@ def leaderboards(request, when_player, player_type):
             "Try again with either batting or pitching in /baseball/career-{player_type}-leaders"
         )
 
+    table_headers = StatDescriptions.objects.get(pk=1)
+    tool_tips = StatDescriptions.objects.get(pk=2)
     paginator = Paginator(players, 25)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
@@ -96,6 +100,8 @@ def leaderboards(request, when_player, player_type):
             "page_obj": page_obj,
             "batting": batting,
             "career": career,
+            "table_headers": table_headers,
+            "tool_tips": tool_tips,
         },
     )
 
