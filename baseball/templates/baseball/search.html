@@ -8,34 +8,38 @@ Player Search {% if q %} - {{ q }} {% endif %}
 
 {% if q %}
 <div>
-    {% with results.count as total_results %}
-    <p class="lead">Players containing "{{ q }}" - {{ total_results }} result{{ total_results|pluralize }} found.</p>
-
-        {% endwith %}
-
-    <ul class="list-group">
-        {% for player in results %}
-        <a href="{{ player.get_absolute_url }}" class="list-group-item border-0 dropdown-item">
-        <span>{{ player.name }}</span>
-        <span>{{ player.first_year }} - {{ player.last_year }}</span>
-        </a>
-
-        <!-- <li class="list-group-item">
-            <ul class="list-group list-group-horizontal">
-                <li class="list-group-item">
-                    <a href="{{ player.get_absolute_url }}">{{ player.name }}</a>
-                </li>
-                <li class="list-group-item">
-                    <span>{{ player.first_year }} - {{ player.last_year }}</span>
-                </li>
-            </ul>
-            
-        </li> -->
-        {% empty %}
-        <p>There are no results for your query.</p>
-        {% endfor %}
-    </ul>
-</div>
+    <div class="row">
+        <div class="col offset-lg-2 offset-md-1">
+            {% with results.count as total_results %}
+            <p class="lead d-flex justify-content-start">
+                Players containing "{{ q }}" - {{ total_results }} result{{ total_results|pluralize }} found.
+            </p>
+            {% endwith %}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-4 col-md-6 offset-lg-2 offset-md-1">
+            <table class="table table-sm table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col" class="visually-hidden">Player Name</th>
+                        <th scope="col" class="visually-hidden">Years Played</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for player in results %}
+                    <tr>
+                        <td scope="row">
+                            <a href="{{ player.get_absolute_url }}" class="text-decoration-none text-body fw-bold">{{ player.name }}</a>
+                        </td>
+                        <td>{{ player.first_year }} - {{ player.last_year }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+    </div>
 {% else %}
 <div>
     <p class="d-flex justify-content-center">
