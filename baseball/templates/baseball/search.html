@@ -8,15 +8,19 @@ Player Search {% if q %} - {{ q }} {% endif %}
 
 {% if q %}
 <div>
-    <p class="lead">Players containing "{{ q }}"</p>
-    <p>
-        {% with results.count as total_results %}
-        Found {{ total_results }} result{{ total_results|pluralize }}
+    {% with results.count as total_results %}
+    <p class="lead">Players containing "{{ q }}" - {{ total_results }} result{{ total_results|pluralize }} found.</p>
+
         {% endwith %}
-    </p>
-    <ul>
+
+    <ul class="list-group">
         {% for player in results %}
-        <li>
+        <a href="{{ player.get_absolute_url }}" class="list-group-item border-0 dropdown-item">
+        <span>{{ player.name }}</span>
+        <span>{{ player.first_year }} - {{ player.last_year }}</span>
+        </a>
+
+        <!-- <li class="list-group-item">
             <ul class="list-group list-group-horizontal">
                 <li class="list-group-item">
                     <a href="{{ player.get_absolute_url }}">{{ player.name }}</a>
@@ -26,7 +30,7 @@ Player Search {% if q %} - {{ q }} {% endif %}
                 </li>
             </ul>
             
-        </li>
+        </li> -->
         {% empty %}
         <p>There are no results for your query.</p>
         {% endfor %}
@@ -34,7 +38,6 @@ Player Search {% if q %} - {{ q }} {% endif %}
 </div>
 {% else %}
 <div>
-    <br>
     <p class="d-flex justify-content-center">
         Enter your search in the 'Player Search' field above.
     </p>

@@ -9,48 +9,32 @@ Baseball Home
 {% block navbar %}
 
 <li class="nav-item dropdown">
-  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
-    aria-expanded="false">
-    Leaderboards
-  </a>
-  <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-    <li>
-      <h6 class="dropdown-header d-flex justify-content-center">
-        Batting:
-      </h6>
-    </li>
-    <div class="list-group list-group-horizontal-sm">
-      <li><a class="dropdown-item list-group-item border-0" href="{% url 'baseball:leaderboards' 'career' 'batting' %}">
-          Career
-        </a></li>
-      <li><a class="dropdown-item list-group-item border-0" href="{% url 'baseball:leaderboards' 'current' 'batting' %}">
-          Active
-        </a></li>
-    </div>
-    <li>
-      <hr class="dropdown-divider">
-    </li>
-    <li>
-      <h6 class="dropdown-header d-flex justify-content-center">
-        Pitching:
-      </h6>
-    </li>
-    <div class="list-group list-group-horizontal-sm">
-      <li><a class="dropdown-item list-group-item border-0"
-          href="{% url 'baseball:leaderboards' 'career' 'pitching' %}">
-          Career
-        </a></li>
-      <li><a class="dropdown-item list-group-item border-0" href="{% url 'baseball:leaderboards' 'current' 'pitching' %}">
-          Active
-        </a></li>
-    </div>
-  </ul>
+    <a class="nav-link dropdown-toggle" href="#" id="LeaderboardsDropdown" role="button"
+        data-bs-toggle="dropdown" aria-expanded="false">
+        Leaderboards
+    </a>
+    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="LeaderboardsDropdown">
+        <li>
+            <h3 class="dropdown-header d-flex justify-content-center text-info">Batting</h3>
+        </li>
+        <a class="dropdown-item d-flex justify-content-center" href="{% url 'baseball:leaderboards' 'career' 'batting' %}">Career</a>
+        <a class="dropdown-item d-flex justify-content-center" href="{% url 'baseball:leaderboards' 'current' 'batting' %}">Active</a>
+        <li>
+            <hr class="dropdown-divider">
+        </li>
+        <li>
+            <h6 class="dropdown-header d-flex justify-content-center text-info">Pitching</h6>
+        </li>
+        <a class="dropdown-item d-flex justify-content-center" href="{% url 'baseball:leaderboards' 'career' 'pitching' %}">Career</a>
+        <a class="dropdown-item d-flex justify-content-center" href="{% url 'baseball:leaderboards' 'current' 'pitching' %}">Active</a>
+    </ul>
 </li>
-<form class="d-flex" action="{% url 'baseball:player-search' %}" method="get">
-  <input class="form-control" name="q" id="id_q" type="search" placeholder="Player Search" aria-label="Search"
-    autocomplete="off" data-bs-toggle="dropdown">
-  <ul class="dropdown-menu dropdown-menu-end" id="search_dropdown_list">
-  </ul>
+<form class="dropdown" action="{% url 'baseball:player-search' %}" method="get">
+    <input class="form-control navbar-player-search dropdown-toggle bg-light" name="q" id="id_q" type="search"
+        placeholder="Player Search" aria-label="Search" autocomplete="off"
+        data-bs-toggle="dropdown">
+    <ul class="dropdown-menu" id="search_dropdown_list">
+    </ul>
 </form>
 
 {% endblock %}
@@ -59,113 +43,77 @@ Baseball Home
 
 {% block baseball_body %}
 
-<br>
 <h2 class="d-flex justify-content-center text-danger">Baseball Home</h2>
 
 {% endblock %}
 
+
+
 <script defer>
-  document.addEventListener('DOMContentLoaded', function () {
-    document.querySelector('#id_q').addEventListener('keyup', () => dropdown());
-  });
-
-  function getCookie(name) {
-    let cookieValue = null;
-    if (document.cookie && document.cookie !== '') {
-      const cookies = document.cookie.split(';');
-      for (let i = 0; i < cookies.length; i++) {
-        const cookie = cookies[i].trim();
-        // Does this cookie string begin with the name we want?
-        if (cookie.substring(0, name.length + 1) === (name + '=')) {
-          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-          break;
-        }
-      }
-    }
-    return cookieValue;
-  }
-
-  function dropdown(event) {
-    // id_q is the id automatically created by the django form
-    const queryString = document.querySelector('#id_q').value;
-
-
-    // Use previous function getCookie to get csrftoken
-    const csrftoken = getCookie('csrftoken');
-
-    // Don't ping server until at least 3 characters are entered
-    if (queryString.length >= 3) {
-
-      fetch('{% url "baseball:player-search" %}', {
-          method: 'POST',
-          credentials: 'same-origin',
-          headers: {
-            "X-CSRFToken": csrftoken,
-          },
-          body: JSON.stringify({
-            ss: queryString,
-          })
-        })
-        .then(response => response.json())
-        .then(data => {
-          let results = []
-          // Adds a dropdown-styled link for each result, displays the result's name
-          for (const num in data) {
-            const eachPlayer = document.createElement('li');
-
-            const innerList = document.createElement('ul');
-            innerList.setAttribute('class', 'list-group list-group-horizontal d-flex justify-content-between');
-
-            const playerName = document.createElement('li');
-            playerName.setAttribute('class', 'list-group-item border-0');
-
-            const playerLink = document.createElement('a');
-            playerLink.setAttribute('class', 'dropdown-item')
-            const link = `/baseball/player/${data[num].id}`;
-            playerLink.setAttribute('href', link);
-            playerLink.textContent = data[num].name;
-
-            playerName.appendChild(playerLink);
-
-            const playerYears = document.createElement('li');
-            playerYears.setAttribute('class', 'list-group-item border-0');
-
-            const yearsSpan = document.createElement('span');
-            yearsSpan.textContent = `${data[num].first_year} - ${data[num].last_year}`;
-
-            playerYears.appendChild(yearsSpan);
-
-            innerList.appendChild(playerName);
-            innerList.appendChild(playerYears);
-
-            eachPlayer.appendChild(innerList);
-
-            results.push(eachPlayer);
-
-          }
-
-          // Shows the dropdown if user clicks in the search field a 2nd time.
-          if (!document.querySelectorAll(".show")[0]) {
-            let search_field = document.querySelector(".menudd");
-            search_field.click()
-          }
-
-          const searchDropdown = document.querySelector('#search_dropdown_list')
-          // Resets dropdown results so they don't keep adding on
-          searchDropdown.innerHTML = ""
-
-          // Adds the results to the dropdown menu
-          if (results.length > 0) {
-            results.forEach(result => {
-              searchDropdown.appendChild(result)
-            })
-          } else {
-            searchDropdown.textContent = "No Results"
-          }
+    document.addEventListener('DOMContentLoaded', () => {
+        const searchField = document.querySelector('#id_q');
+        searchField.addEventListener('focus', () => {
+            searchField.addEventListener('keyup', () => dropdownResults());
         });
+    });
+
+    function dropdownResults(event) {
+        const queryString = document.querySelector('#id_q').value;
+
+        if (queryString.length >= 3) {
+            fetch('{% url "baseball:player-search" %}', {
+                method: 'POST',
+                credentials: 'same-origin',
+                body: JSON.stringify({
+                    ss: queryString,
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                let results = []
+                for (const num in data) {
+                    const eachPlayer = document.createElement('li');
+
+                    const playerLink = document.createElement('a');
+                    playerLink.setAttribute('class',
+                        'dropdown-item list-group list-group-horizontal d-flex justify-content-between py-2 pe-0');
+                    const link = `/baseball/player/${data[num].id}`;
+                    playerLink.setAttribute('href', link);
+
+                    const playerName = document.createElement('span');
+                    playerName.setAttribute('class', 
+                        'list-group-item border-0 py-0 ps-sm-4 ps-3 pe-1 text-wrap player-search-result-name');
+                    playerName.textContent = data[num].name;
+
+                    const playerYears = document.createElement('span');
+                    playerYears.setAttribute('class', 
+                        'list-group-item border-0 py-0 ps-1 pe-3 text-wrap player-search-result-years d-flex align-items-center');
+                    playerYears.textContent = `${data[num].first_year} - ${data[num].last_year}`;
+
+                    playerLink.appendChild(playerName);
+                    playerLink.appendChild(playerYears);
+                    eachPlayer.appendChild(playerLink);
+
+                    results.push(eachPlayer);
+                };
+
+                const searchDropdown = document.querySelector('#search_dropdown_list');
+
+                searchDropdown.innerHTML = ""
+
+                if (results.length > 0) {
+                    results.forEach(result => {
+                        searchDropdown.appendChild(result);
+                    });
+                } else {
+                    searchDropdown.textContent = "No Results";
+                };
+
+            });
+        };
     };
 
-  };
+
 </script>
 
 {% endblock %}

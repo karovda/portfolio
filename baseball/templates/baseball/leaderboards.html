@@ -10,8 +10,7 @@ Baseball Leaderboards - {% if batting %} {% if career %} Career {% else %} Activ
 {% block baseball_body %}
 
 {% if batting %}
-<br>
-<h4 class="d-flex justify-content-center">
+<h4 class="d-flex justify-content-center mb-3">
   {% if career %}
   All-time
   {% else %}
@@ -20,54 +19,56 @@ Baseball Leaderboards - {% if batting %} {% if career %} Career {% else %} Activ
   Batting Leaders
 </h4>
 {% include "baseball/paginator.html" %}
-<table class="table table-hover table-sm">
-  <thead>
+<div class="table-responsive-md">
+  <table class="table table-hover table-sm">
+    <thead>
+      <tr>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col">Years Active</th>
+        <th scope="col" data-bs-toggle="tooltip" data-bs-placement="auto" title="{{ tool_tips.bat_career }}">
+          {{ table_headers.bat_career }}</th>
+        <th scope="col" data-bs-toggle="tooltip" data-bs-placement="auto" title="{{ tool_tips.bat_peak }}">
+          {{ table_headers.bat_peak }}</th>
+        <th scope="col" data-bs-toggle="tooltip" data-bs-placement="auto" title="{{ tool_tips.bat_avg }}">
+          {{ table_headers.bat_avg}}</th>
+        <th scope="col" data-bs-toggle="tooltip" data-bs-placement="auto" title="{{ tool_tips.career_pas }}">
+          {{ table_headers.career_pas }}</th>
+        <th scope="col" data-bs-toggle="tooltip" data-bs-placement="auto" title="{{ tool_tips.peak_pas }}">
+          {{ table_headers.peak_pas }}</th>
+        <th scope="col" data-bs-toggle="tooltip" data-bs-placement="auto" title="{{ tool_tips.bat_rate_career }}">
+          {{ table_headers.bat_rate_career }}</th>
+        <th scope="col" data-bs-toggle="tooltip" data-bs-placement="auto" title="{{ tool_tips.bat_rate_peak }}">
+          {{ table_headers.bat_rate_peak }}</th>
+        <th scope="col" data-bs-toggle="tooltip" data-bs-placement="auto" title="{{ tool_tips.bat_rate_avg }}">
+          {{ table_headers.bat_rate_avg }}</th>
+      </tr>
+    </thead>
+  
+    {% for player in page_obj %}
     <tr>
-      <th scope="col"></th>
-      <th scope="col">Name</th>
-      <th scope="col">Years Active</th>
-      <th scope="col" data-bs-toggle="tooltip" data-bs-placement="auto" title="{{ tool_tips.bat_career }}">
-        {{ table_headers.bat_career }}</th>
-      <th scope="col" data-bs-toggle="tooltip" data-bs-placement="auto" title="{{ tool_tips.bat_peak }}">
-        {{ table_headers.bat_peak }}</th>
-      <th scope="col" data-bs-toggle="tooltip" data-bs-placement="auto" title="{{ tool_tips.bat_avg }}">
-        {{ table_headers.bat_avg}}</th>
-      <th scope="col" data-bs-toggle="tooltip" data-bs-placement="auto" title="{{ tool_tips.career_pas }}">
-        {{ table_headers.career_pas }}</th>
-      <th scope="col" data-bs-toggle="tooltip" data-bs-placement="auto" title="{{ tool_tips.peak_pas }}">
-        {{ table_headers.peak_pas }}</th>
-      <th scope="col" data-bs-toggle="tooltip" data-bs-placement="auto" title="{{ tool_tips.bat_rate_career }}">
-        {{ table_headers.bat_rate_career }}</th>
-      <th scope="col" data-bs-toggle="tooltip" data-bs-placement="auto" title="{{ tool_tips.bat_rate_peak }}">
-        {{ table_headers.bat_rate_peak }}</th>
-      <th scope="col" data-bs-toggle="tooltip" data-bs-placement="auto" title="{{ tool_tips.bat_rate_avg }}">
-        {{ table_headers.bat_rate_avg }}</th>
+      <td scope="row">{{ forloop.counter0|add:page_obj.start_index }}</td>
+      <td>
+        <a href="{{ player.player.get_absolute_url }}" class="fw-bold text-body text-decoration-none">
+          {{ player.player.name }}
+        </a>
+      </td>
+      <td>{{ player.player.first_year }} - {{ player.player.last_year }}</td>
+      <td>{{ player.bat_career }}</td>
+      <td>{{ player.bat_peak }}</td>
+      <td>{{ player.bat_avg }}</td>
+      <td class="border-start">{{ player.career_pas }}</td>
+      <td class="border-end">{{ player.peak_pas }}</td>
+      <td>{{ player.bat_rate_career }}</td>
+      <td>{{ player.bat_rate_peak }}</td>
+      <td>{{ player.bat_rate_avg }}</td>
     </tr>
-  </thead>
+    {% endfor %}
+  </table>
+</div>
 
-  {% for player in page_obj %}
-  <tr>
-    <td scope="row">{{ forloop.counter0|add:page_obj.start_index }}</td>
-    <td>
-      <a href="{{ player.player.get_absolute_url }}" class="fw-bold text-body text-decoration-none">
-        {{ player.player.name }}
-      </a>
-    </td>
-    <td>{{ player.player.first_year }} - {{ player.player.last_year }}</td>
-    <td>{{ player.bat_career }}</td>
-    <td>{{ player.bat_peak }}</td>
-    <td>{{ player.bat_avg }}</td>
-    <td class="border-start">{{ player.career_pas }}</td>
-    <td class="border-end">{{ player.peak_pas }}</td>
-    <td>{{ player.bat_rate_career }}</td>
-    <td>{{ player.bat_rate_peak }}</td>
-    <td>{{ player.bat_rate_avg }}</td>
-  </tr>
-  {% endfor %}
-</table>
 {% else %}
-<br>
-<h4 class="d-flex justify-content-center">
+<h4 class="d-flex justify-content-center mb-3">
   {% if career %}
   All-time
   {% else %}
@@ -76,50 +77,53 @@ Baseball Leaderboards - {% if batting %} {% if career %} Career {% else %} Activ
   Pitching Leaders
 </h4>
 {% include "baseball/paginator.html" %}
-<table class="table table-hover table-sm">
-  <thead>
+<div class="table-responsive-md">
+  <table class="table table-hover table-sm">
+    <thead>
+      <tr>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col">Years Active</th>
+        <th scope="col" data-bs-toggle="tooltip" data-bs-placement="auto" title="{{ tool_tips.pit_career}}">
+          {{ table_headers.pit_career }}</th>
+        <th scope="col" data-bs-toggle="tooltip" data-bs-placement="auto" title="{{ tool_tips.pit_peak}}">
+          {{ table_headers.pit_peak }}</th>
+        <th scope="col" data-bs-toggle="tooltip" data-bs-placement="auto" title="{{ tool_tips.pit_avg}}">
+          {{ table_headers.pit_avg }}</th>
+        <th scope="col" data-bs-toggle="tooltip" data-bs-placement="auto" title="{{ tool_tips.bat_career }}">
+          {{ table_headers.career_ip }}</th>
+        <th scope="col" data-bs-toggle="tooltip" data-bs-placement="auto" title="{{ tool_tips.bat_career }}">
+          {{ table_headers.peak_ip }}</th>
+        <th scope="col" data-bs-toggle="tooltip" data-bs-placement="auto" title="{{ tool_tips.pit_rate_career}}">
+          {{ table_headers.pit_rate_career }}</th>
+        <th scope="col" data-bs-toggle="tooltip" data-bs-placement="auto" title="{{ tool_tips.pit_rate_peak}}">
+          {{ table_headers.pit_rate_peak }}</th>
+        <th scope="col" data-bs-toggle="tooltip" data-bs-placement="auto" title="{{ tool_tips.pit_rate_avg}}">
+          {{ table_headers.pit_rate_avg }}</th>
+      </tr>
+    </thead>
+    {% for player in page_obj %}
     <tr>
-      <th scope="col"></th>
-      <th scope="col">Name</th>
-      <th scope="col">Years Active</th>
-      <th scope="col" data-bs-toggle="tooltip" data-bs-placement="auto" title="{{ tool_tips.pit_career}}">
-        {{ table_headers.pit_career }}</th>
-      <th scope="col" data-bs-toggle="tooltip" data-bs-placement="auto" title="{{ tool_tips.pit_peak}}">
-        {{ table_headers.pit_peak }}</th>
-      <th scope="col" data-bs-toggle="tooltip" data-bs-placement="auto" title="{{ tool_tips.pit_avg}}">
-        {{ table_headers.pit_avg }}</th>
-      <th scope="col" data-bs-toggle="tooltip" data-bs-placement="auto" title="{{ tool_tips.bat_career }}">
-        {{ table_headers.career_ip }}</th>
-      <th scope="col" data-bs-toggle="tooltip" data-bs-placement="auto" title="{{ tool_tips.bat_career }}">
-        {{ table_headers.peak_ip }}</th>
-      <th scope="col" data-bs-toggle="tooltip" data-bs-placement="auto" title="{{ tool_tips.pit_rate_career}}">
-        {{ table_headers.pit_rate_career }}</th>
-      <th scope="col" data-bs-toggle="tooltip" data-bs-placement="auto" title="{{ tool_tips.pit_rate_peak}}">
-        {{ table_headers.pit_rate_peak }}</th>
-      <th scope="col" data-bs-toggle="tooltip" data-bs-placement="auto" title="{{ tool_tips.pit_rate_avg}}">
-        {{ table_headers.pit_rate_avg }}</th>
+      <td scope="row">{{ forloop.counter0|add:page_obj.start_index }}</td>
+      <td>
+        <a href="{{ player.player.get_absolute_url }}" class="fw-bold text-body text-decoration-none">
+          {{ player.player.name }}
+        </a>
+      </td>
+      <td>{{ player.player.first_year }} - {{ player.player.last_year }}</td>
+      <td>{{ player.pit_career }}</td>
+      <td>{{ player.pit_peak }}</td>
+      <td>{{ player.pit_avg }}</td>
+      <td>{{ player.career_ip }}</td>
+      <td>{{ player.peak_ip }}</td>
+      <td>{{ player.pit_rate_career }}</td>
+      <td>{{ player.pit_rate_peak }}</td>
+      <td>{{ player.pit_rate_avg }}</td>
     </tr>
-  </thead>
-  {% for player in page_obj %}
-  <tr>
-    <td scope="row">{{ forloop.counter0|add:page_obj.start_index }}</td>
-    <td>
-      <a href="{{ player.player.get_absolute_url }}" class="fw-bold text-body text-decoration-none">
-        {{ player.player.name }}
-      </a>
-    </td>
-    <td>{{ player.player.first_year }} - {{ player.player.last_year }}</td>
-    <td>{{ player.pit_career }}</td>
-    <td>{{ player.pit_peak }}</td>
-    <td>{{ player.pit_avg }}</td>
-    <td>{{ player.career_ip }}</td>
-    <td>{{ player.peak_ip }}</td>
-    <td>{{ player.pit_rate_career }}</td>
-    <td>{{ player.pit_rate_peak }}</td>
-    <td>{{ player.pit_rate_avg }}</td>
-  </tr>
-  {% endfor %}
-</table>
+    {% endfor %}
+  </table>
+</div>
+
 
 {% endif %}
 
