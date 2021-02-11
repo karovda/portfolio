@@ -133,8 +133,30 @@
             </div>   
         </div>
     </div>
-    
-
 </header>
+
+<script defer>
+    /*
+    This small script alternates showing batting & pitching stats. I had previously had this code
+    in a separate JS file, but had to (or couldn't figure out otherwise) load it in the base
+    django template. Because the script only applies to player pages, every other page would get
+    a console error, so I stuck it here so that the console errors would go away.
+    */
+
+    document.addEventListener('DOMContentLoaded', function () {
+    document.querySelector('#select-pitching-stats').addEventListener('click', () => showPitchingStats());
+    document.querySelector('#select-batting-stats').addEventListener('click', () => showBattingStats());
+})
+
+function showPitchingStats() {
+    document.querySelector('.batting-stats').style.display = "none";
+    document.querySelector('.pitching-stats').style.display = "block";
+}
+
+function showBattingStats() {
+    document.querySelector('.batting-stats').style.display = "block";
+    document.querySelector('.pitching-stats').style.display = "none";
+}
+</script>
 
 {% endblock %}

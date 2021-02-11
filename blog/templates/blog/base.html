@@ -9,7 +9,6 @@
     {% endblock %}
     <link rel="stylesheet" href="{% static 'scss/style.css' %}">
     <script defer src="{% static 'blog/js/bootstrap.bundle.min.js' %}"></script>
-    <script defer src="{% static 'blog/js/main.js' %}"></script>
     <style>
         @media only screen and (min-width: 768px) {
             .player-search-result-name {
@@ -32,6 +31,9 @@
         .dropdown-menu > li > a > span {
             background-color: transparent;
         }
+        .bg-trans {
+            background-color: transparent;
+        }
     </style>
     <title>
         {% block title %}
@@ -42,7 +44,7 @@
 
 <body>
     <header class="bg-dark sticky-top">
-        <h1 class="d-flex justify-content-center text-light pt-2 mb-0">Hello World!</h1>
+ 
         <div class="container">
             <nav class="navbar  navbar-expand-md navbar-dark bg-dark">
                 <div class="container-fluid">
