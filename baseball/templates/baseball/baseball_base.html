@@ -29,12 +29,9 @@ Baseball Home
         <a class="dropdown-item d-flex justify-content-center" href="{% url 'baseball:leaderboards' 'current' 'pitching' %}">Active</a>
     </ul>
 </li>
-<form class="dropdown" action="{% url 'baseball:player-search' %}" method="get">
-    <input class="form-control navbar-player-search dropdown-toggle bg-light" name="q" id="id_q" type="search"
-        placeholder="Player Search" aria-label="Search" autocomplete="off"
-        data-bs-toggle="dropdown">
-    <ul class="dropdown-menu" id="search_dropdown_list">
-    </ul>
+<form class="dropdown" action="{% url 'baseball:player-search' %}" method="get" id="player-search-form">
+    <input class="form-control navbar-player-search dropdown-toggle bg-light show" name="q" id="id_q" type="search"
+        placeholder="Player Search" autocomplete="off" aria-label="Search" aria-expanded="false">
 </form>
 
 {% endblock %}
@@ -48,18 +45,27 @@ Baseball Home
 {% endblock %}
 
 
-
 <script defer>
+    /*
+    While ideally there wouldn't be any JS in this HTML file, the inclusion of django templates
+    makes moving into it's own file either impossible or a huge headache to figure out - which means
+    the modest amount of custom JS resides here. If/when this becomes a problem to my future self, I'm
+    sorry self.
+    */
+
     document.addEventListener('DOMContentLoaded', () => {
         const searchField = document.querySelector('#id_q');
+        // The following focus and keyup comboination ensures both that the algo is fetching
+        // after every keystroke (min 3) while also allowing the user to show/hide the resulting
+        // dropdown menu.
         searchField.addEventListener('focus', () => {
             searchField.addEventListener('keyup', () => dropdownResults());
         });
     });
 
     function dropdownResults(event) {
-        const queryString = document.querySelector('#id_q').value;
-
+        const searchField = document.querySelector('#id_q');
+        const queryString = searchField.value;
         if (queryString.length >= 3) {
             fetch('{% url "baseball:player-search" %}', {
                 method: 'POST',
@@ -97,18 +103,31 @@ Baseball Home
                     results.push(eachPlayer);
                 };
 
-                const searchDropdown = document.querySelector('#search_dropdown_list');
+                // data-bs-toggle is Bootstrap's way of doing dropdowns. I didn't include this
+                // in the initial HTML because doing so caused a console error before the dropdown
+                // results were populated.
+                searchField.setAttribute('data-bs-toggle', 'dropdown');
+                searchField.setAttribute('aria-expanded', 'true');
 
-                searchDropdown.innerHTML = ""
+                // Removes any past dropdown menu elements created by this function
+                if (document.querySelector('#player-search-dropdown-menu')) {
+                    const oldDropdown = document.querySelector('#player-search-dropdown-menu');
+                    oldDropdown.remove();
+                }
+                const searchResultsDropdown = document.createElement('ul');
+                searchResultsDropdown.setAttribute('class', 'dropdown-menu show');
+                searchResultsDropdown.setAttribute('id', 'player-search-dropdown-menu');
 
                 if (results.length > 0) {
                     results.forEach(result => {
-                        searchDropdown.appendChild(result);
+                        searchResultsDropdown.appendChild(result);
                     });
                 } else {
-                    searchDropdown.textContent = "No Results";
+                    searchResultsDropdown.innerHTML = `<span class="d-flex justify-content-center">No Results</span>`;
                 };
 
+                const dropdownSearchForm = document.querySelector('#player-search-form');
+                dropdownSearchForm.appendChild(searchResultsDropdown);
             });
         };
     };
