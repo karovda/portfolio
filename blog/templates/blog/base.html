@@ -7,38 +7,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% block meta %}
     {% endblock %}
-    <link rel="stylesheet" href="{% static 'scss/style.css' %}">
-    <script defer src="{% static 'blog/js/bootstrap.bundle.min.js' %}"></script>
-    <style>
-        @media only screen and (min-width: 768px) {
-            .player-search-result-name {
-                min-width: 280px;
-            }
-            .player-search-result-years {
-                min-width: 105px;
-            }
-        }
-
-        body {
-            min-width: 320px;
-        }
-
-        .dropdown-menu > li > a:hover {
-            background-image: none;
-            background-color: blue;
-            color: white;
-        }
-        .dropdown-menu > li > a > span {
-            background-color: transparent;
-        }
-        .bg-trans {
-            background-color: transparent;
-        }
-    </style>
-    <title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="icon" type="image/svg+xml" href="{% static 'images/favicon.svg' %}">
+    <script defer src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+    <title> 
         {% block title %}
-        Testing, Testing
         {% endblock %}
+        | Tim's Site
     </title>
 </head>
 
@@ -48,7 +23,6 @@
         <div class="container">
             <nav class="navbar  navbar-expand-md navbar-dark bg-dark">
                 <div class="container-fluid">
-                    <a class="navbar-brand" href="{% url 'blog:home' %}">Tim</a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                         data-bs-target="#navbarMainContent" aria-controls="navbarMainContent" aria-expanded="false"
                         aria-label="Toggle navigation">
@@ -56,6 +30,9 @@
                     </button>
                     <div class="collapse navbar-collapse" id="navbarMainContent">
                         <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                            <li class="nav-item">
+                                <a href="{% url 'blog:home' %}" class="nav-link">Tim</a>
+                            </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{% url 'baseball:baseball-home' %}">Baseball</a>
                             </li>
@@ -67,7 +44,7 @@
             </nav>
         </div>
     </header>
-    <main class="min-vh-100 bg-light pt-3">
+    <main class="min-vh-100 bg-light pt-3 pb-5">
         <div class="container">
             {% block body %}
 
@@ -75,6 +52,7 @@
 
             {% endblock %}
         </div>
+
     </main>
 </body>
 </html>

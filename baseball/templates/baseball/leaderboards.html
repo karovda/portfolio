@@ -1,26 +1,34 @@
 {% extends "baseball/baseball_base.html" %}
 
-{% block title %}
+{% block baseball_title %}
 
-Baseball Leaderboards - {% if batting %} {% if career %} Career {% else %} Active {% endif %} Batting
+{% if batting %} {% if career %} Career {% else %} Active {% endif %} Batting
 {% else %} {% if career %} Career {% else %} Active {% endif %} Pitching {% endif %}
+Leaders 
 
 {% endblock %}
 
 {% block baseball_body %}
 
 {% if batting %}
-<h4 class="d-flex justify-content-center mb-3">
+<h2 class="d-flex justify-content-center mb-3">
   {% if career %}
   All-time
   {% else %}
   Active
   {% endif %}
   Batting Leaders
-</h4>
+</h2>
 {% include "baseball/paginator.html" %}
 <div class="table-responsive-md">
-  <table class="table table-hover table-sm">
+  <table class="table table-primary table-striped table-hover table-sm caption-top">
+    <caption>
+      {% if career %}
+      Players with at least 20 career WAR
+      {% else %}
+      Current players with at least 500 PAs
+      {% endif %}
+    </caption>
     <thead>
       <tr>
         <th scope="col"></th>
@@ -68,17 +76,24 @@ Baseball Leaderboards - {% if batting %} {% if career %} Career {% else %} Activ
 </div>
 
 {% else %}
-<h4 class="d-flex justify-content-center mb-3">
+<h2 class="d-flex justify-content-center mb-3">
   {% if career %}
   All-time
   {% else %}
   Active
   {% endif %}
   Pitching Leaders
-</h4>
+</h2>
 {% include "baseball/paginator.html" %}
 <div class="table-responsive-md">
-  <table class="table table-hover table-sm">
+  <table class="table table-primary table-hover table-sm caption-top">
+    <caption>
+      {% if career %}
+      Players with at least 20 career WAR
+      {% else %}
+      Current players with at least 150 IP
+      {% endif %}
+    </caption>
     <thead>
       <tr>
         <th scope="col"></th>

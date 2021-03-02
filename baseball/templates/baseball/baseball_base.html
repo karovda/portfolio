@@ -2,12 +2,15 @@
 
 {% block title %}
 
-Baseball Home
-
+{% block baseball_title %}
+{% endblock %}
 {% endblock %}
 
 {% block navbar %}
 
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'baseball:the-stats' %}">The Stats</a>
+</li>
 <li class="nav-item dropdown">
     <a class="nav-link dropdown-toggle" href="#" id="LeaderboardsDropdown" role="button"
         data-bs-toggle="dropdown" aria-expanded="false">
@@ -15,15 +18,15 @@ Baseball Home
     </a>
     <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="LeaderboardsDropdown">
         <li>
-            <h3 class="dropdown-header d-flex justify-content-center text-info">Batting</h3>
+            <h3 class="dropdown-header d-flex justify-content-center text-secondary fw-bold fs-6">Batting</h3>
         </li>
-        <a class="dropdown-item d-flex justify-content-center" href="{% url 'baseball:leaderboards' 'career' 'batting' %}">Career</a>
-        <a class="dropdown-item d-flex justify-content-center" href="{% url 'baseball:leaderboards' 'current' 'batting' %}">Active</a>
+        <a class="dropdown-item d-flex justify-content-center bg-trans" href="{% url 'baseball:leaderboards' 'career' 'batting' %}">Career</a>
+        <a class="dropdown-item d-flex justify-content-center bg-trans" href="{% url 'baseball:leaderboards' 'current' 'batting' %}">Active</a>
         <li>
             <hr class="dropdown-divider">
         </li>
         <li>
-            <h6 class="dropdown-header d-flex justify-content-center text-info">Pitching</h6>
+            <h6 class="dropdown-header d-flex justify-content-center text-secondary fw-bold fs-6">Pitching</h6>
         </li>
         <a class="dropdown-item d-flex justify-content-center" href="{% url 'baseball:leaderboards' 'career' 'pitching' %}">Career</a>
         <a class="dropdown-item d-flex justify-content-center" href="{% url 'baseball:leaderboards' 'current' 'pitching' %}">Active</a>
@@ -48,9 +51,9 @@ Baseball Home
 <script defer>
     /*
     While ideally there wouldn't be any JS in this HTML file, the inclusion of django templates
-    makes moving into it's own file either impossible or a huge headache to figure out - which means
+    makes moving into it's own file either impossible or a headache to figure out - which means
     the modest amount of custom JS resides here. If/when this becomes a problem to my future self, I'm
-    sorry self.
+    sorry, self.
     */
 
     document.addEventListener('DOMContentLoaded', () => {
@@ -82,18 +85,18 @@ Baseball Home
 
                     const playerLink = document.createElement('a');
                     playerLink.setAttribute('class',
-                        'dropdown-item list-group list-group-horizontal d-flex justify-content-between py-2 pe-0');
+                        'dropdown-item dropdown-item-primary-color list-group list-group-horizontal d-flex justify-content-between py-2 pe-0');
                     const link = `/baseball/player/${data[num].id}`;
                     playerLink.setAttribute('href', link);
 
                     const playerName = document.createElement('span');
                     playerName.setAttribute('class', 
-                        'list-group-item border-0 py-0 ps-sm-4 ps-3 pe-1 text-wrap player-search-result-name');
+                        'list-group-item border-0 py-0 ps-sm-4 ps-3 pe-1 text-wrap player-search-result-name bg-trans');
                     playerName.textContent = data[num].name;
 
                     const playerYears = document.createElement('span');
                     playerYears.setAttribute('class', 
-                        'list-group-item border-0 py-0 ps-1 pe-3 text-wrap player-search-result-years d-flex align-items-center');
+                        'list-group-item border-0 py-0 ps-1 pe-3 text-wrap player-search-result-years d-flex align-items-center bg-trans');
                     playerYears.textContent = `${data[num].first_year} - ${data[num].last_year}`;
 
                     playerLink.appendChild(playerName);

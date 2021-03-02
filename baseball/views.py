@@ -1,7 +1,6 @@
 import json
 
 from django.core.paginator import Paginator
-from django.db.models import Q
 from django.http import Http404, JsonResponse
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
@@ -11,7 +10,18 @@ from .models import Batters, CareerStats, Pitchers, PlayerInfo, StatDescriptions
 
 
 def baseball_home(request):
-    return render(request, "baseball_base.html")
+    andruw = CareerStats.objects.get(player__name="Andruw Jones")
+    edmonds = CareerStats.objects.get(player__name="Jim Edmonds")
+    killebrew = CareerStats.objects.get(player__name="Harmon Killebrew")
+    perez = CareerStats.objects.get(player__name="Tony Perez")
+    return render(
+        request,
+        "baseball_index.html",
+        {
+            "firsts_and_centers": [killebrew, perez, edmonds, andruw],
+            "table_headers": StatDescriptions.objects.get(pk=1),
+        },
+    )
 
 
 def player_detail(request, num):
@@ -21,8 +31,8 @@ def player_detail(request, num):
         "player_detail.html",
         {
             "player": PlayerInfo.objects.get(pk=num),
-            "batting": Batters.objects.filter(player=num).order_by("-year"),
-            "pitching": Pitchers.objects.filter(player=num).order_by("-year"),
+            "batting": Batters.objects.filter(player=num).order_by("year"),
+            "pitching": Pitchers.objects.filter(player=num).order_by("year"),
             "career": CareerStats.objects.get(player=num),
             "table_headers": StatDescriptions.objects.get(pk=1),
             "tool_tips": StatDescriptions.objects.get(pk=2),
@@ -37,7 +47,7 @@ def leaderboards(request, when_player, player_type):
     and player_type can be 'batting' or 'pitching'.
     Any input not listed here will result in a 404 response.
     """
-    career = False
+    career = ""
     if when_player == "career":
         career = True
     elif when_player == "current":
@@ -132,7 +142,13 @@ def player_search(request):
         form = PlayerSearchForm(request.GET)
         if form.is_valid():
             query = form.cleaned_data["q"]
-            results = PlayerInfo.objects.filter(name__icontains=query)
+            results = PlayerInfo.objects.filter(name__icontains=query).order_by(
+                "-last_year", "name"
+            )
+
+    results_paginator = Paginator(results, 25)
+    results_page_number = request.GET.get("page")
+    results_page_obj = results_paginator.get_page(results_page_number)
 
     return render(
         request,
@@ -141,5 +157,23 @@ def player_search(request):
             "form": form,
             "q": query,
             "results": results,
+            "page_obj": results_page_obj,
+        },
+    )
+
+
+def the_stats(request):
+    rose = CareerStats.objects.get(player=7496)
+    votto = CareerStats.objects.get(player__name="Joey Votto")
+
+    harper2015 = Batters.objects.filter(player__name="Bryce Harper").get(year=2015)
+    bonds2003 = Batters.objects.filter(player__name="Barry Bonds").get(year=2003)
+    return render(
+        request,
+        "the_stats.html",
+        {
+            "rose_votto": [rose, votto],
+            "bonds_harper": [bonds2003, harper2015],
+            "table_headers": StatDescriptions.objects.get(pk=1),
         },
     )

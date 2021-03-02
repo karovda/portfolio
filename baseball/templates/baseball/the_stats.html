@@ -1,0 +1,229 @@
+{% extends "baseball/baseball_base.html" %}
+
+{% block baseball_title %}
+The Stats 
+{% endblock %}
+
+{% block baseball_body %}
+
+<article class="row">
+    <header>
+        <h2>The Stats</h2>
+        <p class="lead">An explanation of some of the non-traditional stats used on this site.</p>
+    </header>
+    <nav class="col-md-3 col-12 order-md-2 mt-2 mb-4">
+            <p class="border-bottom pb-2 mb-2">
+                Quick Links
+            </p>
+            <ul class="list-group">
+                <li class="list-group-item bg-trans border-0 p-0">
+                    <a class="list-group-item bg-trans border-0 pt-1 pb-0 text-muted" href="#war_ex">WAR</a>
+                </li>
+                <li class="list-group-item bg-trans border-0 p-0">
+                    <a class="list-group-item bg-trans border-0 pt-1 pb-0 text-muted" href="#war7_ex">WAR7</a>
+                </li>
+                <li class="list-group-item bg-trans border-0 p-0">
+                    <a class="list-group-item bg-trans border-0 pt-1 pb-0 text-muted" href="#fJAWS_ex">fJAWS</a>
+                </li>
+                <li class="list-group-item bg-trans border-0 p-0">
+                    <a class="list-group-item bg-trans border-0 pt-1 pb-0 text-muted" href="#warrate_ex">WARr</a>
+                </li>
+                <li class="list-group-item bg-trans border-0 p-0">
+                    <a class="list-group-item bg-trans border-0 pt-1 pb-0 text-muted" href="#war7rate_ex">WAR7r</a>
+                </li>
+                <li class="list-group-item bg-trans border-0 p-0">
+                    <a class="list-group-item bg-trans border-0 pt-1 pb-0 text-muted" href="#fJAWSrate_ex">fJAWSr</a>
+                </li>
+                <li class="list-group-item bg-trans border-0 p-0">
+                    <a class="list-group-item bg-trans border-0 pt-1 pb-0 text-muted" href="#Otherstats_ex">Others</a>
+                </li>
+    </nav>
+    <div class="col-md-9 col-12">
+        
+        <section>
+            <h4 id="war_ex">WAR</h4>
+            <p class="lead">The most popular advanced stat.</p>
+            <p>
+                If you are unfamiliar with WAR, it stands for Wins Above Replacement and is a framework that combines all of a player's stats into one all-encompassing stat.
+                WAR attempts to allows analysts and fans to compare different types of players with just one number.
+                There are <a href="https://www.baseball-reference.com/about/war_explained.shtml">multiple</a> ways of <a href="http://tangotiger.com/index.php/site/comments/how-to-create-war-for-any-sport/">calculating</a> 
+                <a href="https://legacy.baseballprospectus.com/glossary/index.php?search=WARP">WAR</a>,
+                    but for this site I have used <a href="https://library.fangraphs.com/misc/war/">Fangraphs'</a> version of WAR, sometimes referred to as fWAR.
+            </p>
+            <p>
+                The most important things to know about WAR are:
+                <ul>
+                    <li>
+                        There are two kinds: Pitching & everything else. <br> <span class="text-muted">Note: the 'everything else' WAR is called 'Batting' WAR on this site, but includes fielding & baserunning</span>
+                    </li>
+                    <li>
+                        It measures a player's skill against a theoretical "replacement" player, which by definition is worse than an "average" player.
+                    </li>
+                    <li>
+                        WAR is a <a href="https://library.fangraphs.com/principles/counting-v-rate/">counting stat</a>.
+                    </li>
+                </ul>
+                Some implications are:
+                <ul>
+                    <li>
+                        Pitchers occassionally have noticeable amounts of 'Batting' WAR as part of their overall total value.
+                        An example is <a href="{% url 'baseball:player-detail' 353 %}">Zack Greinke's</a> 2013 season in which he acculumated 1.3 non-pitching WAR over just 29 games and 72 PAs.
+                    </li>
+                    <li>
+                        Players can be below-average but still be valuable to a team.
+                    </li>
+                    <li>
+                        Because WAR is a counting stat, the more play-time a player gets while performing above replacement level, the more WAR he will accumulate.
+                    </li>
+                </ul>
+                Basically, WAR &#8776 How good a player is x How much/long the player plays
+            </p>
+        </section>
+        <section>
+            <h4 id="war7_ex">WAR7</h4>
+            <p>
+                WAR7 is the total combined WAR of a player's 7 highest-WAR seasons (not necessarily consecutive). If a player has only 7 or fewer seasons, then it will be the same as their total career WAR. 
+                For retired & veteran players, this stat roughly represents the player's peak performance. WAR7 starts to bring out the difference between "peak" and "longevity."
+            </p>
+        </section>
+        <section>
+            <h4 id="fJAWS_ex">fJAWS</h4>
+            <p>
+                <a href="https://www.baseball-reference.com/about/jaws.shtml">JAWS</a> (Jaffe WAR Score system) is an attempt to refine the perspective of WAR when looking at players' entire careers 
+                and whether they should be in the Hall of Fame. JAWS is the average of a player's career WAR and WAR7. This average is meant to be a basic balancing of a player's "peak" and "longevity."
+                JAWS uses <a href="https://www.baseball-reference.com/about/war_explained.shtml">Baseball Reference's</a> version of WAR. Because I use Fangraphs' version of WAR on this site, fJAWS is the same calculation as JAWS,
+                just with Fangraphs' WAR instead of BBref.
+            </p>
+        </section>
+        <section>
+            <h4 id="warrate_ex">WARr</h4>
+            <p>
+                WARr stands for WAR-rate. For non-pitching WAR, the rate is per 600 plate appearances. For pitching WAR, it is per 200 innings pitched.
+                There are of course issues and limitations with choosing 600 PAs and 200 IP. E.g. This makes for somewhat akward comparisons between starting pitchers and relievers as well as starting pitchers
+                of the 21st century and starting pitchers from 100+ years ago. However, the denominator (600 PAs/200 IP) itself is mostly irrelevant, as the respective rates between players would remain the same.
+                I choose 600 PA and 200 IP mostly because they're round numbers and very roughly resemble a full season for starting players. WARr shows how well a player did 
+                during a season or for his career on a per PA or per IP basis. It helps in answering questions like "Who would you want to start in the 7th game of the World Series?" and 
+                "Who do you want at the plate in the bottom of the 9th?" WARr is a player's WAR-rate for their entire career.
+            </p>
+        </section>
+        <section>
+            <h4 id="war7rate_ex">WAR7r</h4>
+            <p>
+                WAR7r is the WARr for the total of a player's 7 highest-WAR seasons. Because WAR7 has a bit of a playing-time bias, WAR7r strips that away for a player's 'peak' seasons.
+                A player may have a higher WAR7 because he had a lot of playing time during those years, while a better player could have the same or even lower WAR7 because of less playing time or injuries.
+            </p>
+            <p>
+                Here's an example:
+            </p>
+            <div class="container">
+                <div class="table-responsive-md">
+                    <table class="table table-primary table-sm table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">Name</th>
+                                <th scope="col">Years</th>
+                                <th scope="col">{{ table_headers.bat_peak }}</th>
+                                <th scope="col">{{ table_headers.peak_pas }}</th>
+                                <th scope="col">{{ table_headers.bat_rate_peak }}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for player in rose_votto %}
+                            <tr>
+                                <td scope="row">
+                                    <a href="{{ player.player.get_absolute_url }}" class="fw-bold text-body text-decoration-none">
+                                    {{ player.player.name }}
+                                    </a>
+                                </td>
+                                <td>{{ player.player.first_year }} - {{ player.player.last_year }}</td>
+                                <td>{{ player.bat_peak }}</td>
+                                <td>{{ player.peak_pas }}</td>
+                                <td class="table-active">{{ player.bat_rate_peak }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <p>
+                Pete Rose holds the record for most career MLB hits, plate appearances, games played and many other counting metrics that measure a player's longevity.
+                However, this table compares his peak performance with Joey Votto's.
+                Rose and Votto, both firstbasemen, have nearly identical WAR7 totals, meaning they both accrued the same amount of wins above replacement in their 7 best (non-consecutive) seasons.
+                Rose, however, had more than 500 additional PAs in his 7 best years than Votto in his 7 best. Because of this, Votto has a WAR7r more than .5 higher than Rose.
+                This means that had Votto had the same number of PAs, he would have accumulated more value.
+                In essence, Votto is preferable to Rose as an answer to the question "Who do you want at the plate in the bottom of the ninth?"
+            </p>
+        </section>
+        <section>
+            <h4 id="fJAWSrate_ex">fJAWSr</h4>
+            <p>
+                fJAWSr does for WAR-rate what fJAWS does for WAR totals. fJAWSr is an average of a player's career WARr and WAR7r. fJAWSr gives us a stat that balances a player's "peak" and "longevity"
+                while weighting playing time less than fJAWS.
+            </p>
+        </section>
+        <section>
+            <h4 id="Otherstats_ex">Others</h4>
+            <p>
+                On individual player pages, you can see season values for wRC+, BsR, Off, Def, K/9, BB/9 and other stats.
+                I don't really focus on any of these on this site, but they are shown to give you some idea at <i>how</i> a player reached his WAR total for a given year.
+                wRC+ is a rate stat designed to encapsulate everything a batter does at the plate and adjust it such that 100 is average and above 100 is above average.
+                BsR, Off & Def are counting stats that go into the WAR calculation.
+                BsR is net baserunning runs above average (including steals & first-to-thirds).
+                Off represents all offensive runs above average, combining batting runs above average and BsR.
+                Def is of course defensive runs saved above average and includes a positional adjustment (i.e. a SS with average defense is still more defensively valuable than a 1B with great defense).
+            </p>
+            <p>
+                An example of how you might use these stats:
+                
+            </p>
+            <p>
+                Bryce Harper won MVP in 2015 on the back of an amazing year at the plate. Barry Bonds won his 3rd straight MVP in 2003 during a similiarly amazing offensive year. Here's how the 2 years compare.
+            </p>
+            <div class="container">
+                <div class="table-responsive-md">
+                    <table class="table table-primary table-sm table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">Name</th>
+                                <th scope="col">Year</th>
+                                <th scope="col">G</th>
+                                <th scope="col">PA</th>
+                                <th scope="col">wRC+</th>
+                                <th scope="col">BsR</th>
+                                <th scope="col">Off</th>
+                                <th scope="col">Def</th>
+                                <th scope="col">WAR</th>
+                                <th scope="col">{{ table_headers.bat_rate_career }}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for batter in bonds_harper %}
+                            <tr>
+                                <th scope="row">{{ batter.player.name }}</th>
+                                <td>{{ batter.year }}</td>
+                                <td>{{ batter.g }}</td>
+                                <td>{{ batter.pa }}</td>
+                                <td>{{ batter.wrc_plus }}</td>
+                                <td>{{ batter.bsr }}</td>
+                                <td>{{ batter.off }}</td>
+                                <td>{{ batter.def_field }}</td>
+                                <td>{{ batter.war }}</td>
+                                <td>{{ batter.war_per_600 }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <p>
+                Bonds and Harper put up similiar(ly outlandish) wRC+ and Offensive Runs Above Average, but Bonds' defense graded out much better than Harper's. 
+                The difference in defensive value is the biggest reason Bonds had the slightly higher WAR.
+                However, Bonds accumulated that WAR in 23 fewer games and 104 fewer PAs, so the players' {{ table_headers.bat_rate_career }} are more separated. 
+            </p>
+        </section>
+    </div>  
+</article>
+
+
+
+{% endblock %} 

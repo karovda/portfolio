@@ -1,0 +1,125 @@
+{% extends "baseball/baseball_base.html" %}
+
+{% block title %}
+Baseball Home
+{% endblock %}
+
+{% block baseball_body %}
+
+<h2 class="d-flex justify-content-center">Tim's Baseball Thoughts</h2>
+
+<article>
+    <h4>Intro</h4>
+    <p>
+        This site's main purpose is to shed a tiny bit of light on an area of baseball analysis that isn't discussed <i>quite</i> enough: rate stats.
+        Yes, there are tons of rate stats, even going all the way back to batting average. However, while the introduction and development of <a href="{% url 'baseball:the-stats' %}">WAR</a> has been extremely useful
+        in better understanding the game, it isn't the perfect stat for all situations (not that it tries to be). My primary purpose of highlighting rate stats is within the context of a player's entire career,
+        and whether they should be in the Hall of Fame - at least based on the player's on-field performance.
+    </p>
+    <p>
+        In this vein, this site focuses on WAR rate stats. There are many ways to convert WAR totals into a rate. For starters, there are essentially an infinite number of denominators to choose from.
+        To better understand what decisions I've made, and what WAR rate stats I use on this site, take a look at <a href="{% url 'baseball:the-stats' %}">The Stats</a>.
+    </p>
+    <p>
+        Some caveats/drawbacks/problems with my approach: 
+        <ul>
+            <li>
+                I have used <a href="https://www.fangraphs.com/">Fangraphs'</a> version of WAR. There are other versions, but of the ones that are most accessible, I like Fangraphs' version the best.
+                Sometimes, however, different versions have noticeably different outcomes. 
+            </li>
+            <li>
+                While the individual season WAR totals of each player are exactly the same as Fangraphs' official numbers, career WAR totals are sometimes very slightly off.
+                This comes from Fangraphs keeping more precise WAR calculations than they show for each season.
+                This typically results in at most a .2 or .3 difference for a player, which is nearly or completely meaningless within the context of a 10+ year career.
+            </li>
+            <li>
+                This site has every player who ever played in the MLB, but it doesn't keep track of most traditional stats. And even for some of the stats is does track, it does not have the player's career totals/rates.
+                This is in part because the primary focus of this site in on players' WAR and WAR rates and not other stats. 
+            </li>
+            <li>
+                There is no perfect implementation of WAR. Even if there were, WAR rate stats would have additional problems of their own.
+                For example, I chose to use a player's 7 highest-war seasons in the same way JAWS does (confused? look <a href="{% url 'baseball:the-stats' %}">here</a>),
+                but it's not clear this is the best way to capture a player's peak rate ability while still accounting for playing time to some extent.
+                Ideally, I would prefer to include something like a Wins Above Average as opposed to WAR, but this wouldn't completely solve the issue, and is not something I have yet calculated or otherwise found for Fangraphs' version of WAR.
+            </li>
+         
+                
+        </ul>
+        There are many other potential problems and limitations when using WAR rate to judge a player's entire career - too many to list here.
+        <br>
+        However, I believe WAR rate to be an illuminating concept. See below for an example.
+    </p>
+    <div>
+        <h6></h6>
+        <p>
+            
+        </p>
+    </div>   
+
+</article>
+
+<article>
+    <h4>Firstbasemen & Centerfielders</h4>
+    <p>
+        As of the 2021 Hall of Fame Ballot, 21 1Bs and 19 CFs have been enshrined. While this may seem fine, it has been difficult of late for a few CFs to gain traction, despite having extremely successful careers.
+        We'll compare 2 HOF 1Bs & 2 non-HOF CFs.
+    </p>
+    <div class="container">
+        <div class="table-responsive-md">
+            <table class="table table-primary table-striped table-sm table-hover">
+                <caption>1B: Killebrew & Perez CF: Edmonds & Jones</caption>
+                <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Years</th>
+                        <th scope="col">{{ table_headers.bat_career }}</th>
+                        <th scope="col">{{ table_headers.bat_peak }}</th>
+                        <th scope="col">{{ table_headers.bat_avg}}+</th>
+                        <th scope="col">{{ table_headers.career_pas }}</th>
+                        <th scope="col">{{ table_headers.peak_pas }}</th>
+                        <th scope="col">{{ table_headers.bat_rate_career }}</th>
+                        <th scope="col">{{ table_headers.bat_rate_peak }}</th>
+                        <th scope="col">{{ table_headers.bat_rate_avg }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for player in firsts_and_centers %}
+                    <tr>
+                        <td scope="row"><a href="{{ player.player.get_absolute_url }}" class="fw-bold text-body text-decoration-none">
+                            {{ player.player.name }}
+                          </a></td>
+                        <td>{{ player.player.first_year }} - {{ player.player.last_year }}</td>
+                        <td>{{ player.bat_career }}</td>
+                        <td>{{ player.bat_peak }}</td>
+                        <td>{{ player.bat_avg }}</td>
+                        <td>{{ player.career_pas }}</td>
+                        <td>{{ player.peak_pas }}</td>
+                        <td>{{ player.bat_rate_career }}</td>
+                        <td>{{ player.bat_rate_peak }}</td>
+                        <td>{{ player.bat_rate_avg }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <p>
+        Because WAR doesn't care what position a player plays, just the value they provide, WAR and WAR rate are some of the best comparison tools available to compare players at different positions.
+        1Bs typically hit better than CFs, but that doesn't mean they necessarily provide more value. Looking at total WAR, we see that Killebrew, Edmonds, and Jones are all nearly identical,
+        while Perez is a little lower. Looking at WAR7, we can see that Edmonds and Jones provided more value in their peak years than the firstbasemen.
+        On top of this, Edmonds and Jones accrued many fewer plate appearances and fewer seasons played. WARr shows the large disparity between the CFs and 1Bs in how much value
+        they provided per plate appearance. Longevity does and should matter for a player's Hall-of-Fame worthiness. However, a player's ability to pile on additional average or below average seasons at the end of their career
+        shouldn't be helping their HoF case.
+    </p>
+    <p>
+        These hand-picked players aren't fully representative of all Hall-of-Fame disparities. However, I chose these four not because I think Killebrew or Perez shouldn't be in the Hall,
+        but because Jim Edmonds only received <a href="https://www.baseball-reference.com/awards/hof_2016.shtml">2.5%</a>(!!) of the vote on his first ballot before being automaticall dropped from further consideration.
+        This is without any major character flaw or other off-the-field concerns I'm aware of.
+        Jones is still on the ballot, but has so far only reached as high as <a href="https://www.baseball-reference.com/awards/hof_2021.shtml">33.9%</a> on the 2021 ballot. It seems like Edmonds
+        and Jones should definitely be in the Hall, based on who is already in it. They were some of the best centerfielders to ever play, and just because they didn't accumulate quite as many
+        counting stats as others, doesn't mean they should be kept out.
+    </p>
+</article>
+
+
+{% endblock %}

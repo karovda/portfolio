@@ -1,13 +1,17 @@
 {% extends "baseball/baseball_base.html" %}
 
-{% block title %}
-Player Search {% if q %} - {{ q }} {% endif %}
+{% block baseball_title %}
+{% if q %} {{ q }} - {% endif %}Player Search 
 {% endblock %}
 
 {% block baseball_body %}
 
 {% if q %}
-<div>
+    <div class="row">
+        <div class="col offset-lg-2 offset-md-1">
+            {% include "baseball/paginator.html" %}
+        </div>
+    </div>
     <div class="row">
         <div class="col offset-lg-2 offset-md-1">
             {% with results.count as total_results %}
@@ -19,17 +23,19 @@ Player Search {% if q %} - {{ q }} {% endif %}
     </div>
     <div class="row">
         <div class="col-lg-4 col-md-6 offset-lg-2 offset-md-1">
-            <table class="table table-sm table-hover">
+            <table class="table table-primary table-striped table-sm table-hover">
                 <thead>
                     <tr>
+                        <th scope="col" class="visually-hidden">Result Number</th>
                         <th scope="col" class="visually-hidden">Player Name</th>
                         <th scope="col" class="visually-hidden">Years Played</th>
                     </tr>
-                </thead>
+                </thead>    
                 <tbody>
-                    {% for player in results %}
+                    {% for player in page_obj %}
                     <tr>
-                        <td scope="row">
+                        <td scope="row">{{ forloop.counter0|add:page_obj.start_index }}</td>
+                        <td>
                             <a href="{{ player.get_absolute_url }}" class="text-decoration-none text-body fw-bold">{{ player.name }}</a>
                         </td>
                         <td>{{ player.first_year }} - {{ player.last_year }}</td>
@@ -39,6 +45,11 @@ Player Search {% if q %} - {{ q }} {% endif %}
             </table>
         </div>
         
+    </div>
+    <div class="row">
+        <div class="col offset-lg-2 offset-md-1">
+            {% include "baseball/paginator.html" %}
+        </div>
     </div>
 {% else %}
 <div>

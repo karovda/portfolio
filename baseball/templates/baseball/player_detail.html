@@ -1,5 +1,9 @@
 {% extends "baseball/baseball_base.html" %}
 
+{% block baseball_title %}
+    {{ player.name }} Stats
+{% endblock %}
+
 {% block baseball_body %}
 <h2 class="d-flex justify-content-center py-2 my-0">{{ player.name }}</h2>
 <header class="batting-stats" {% if career.default_batting %} style="display:block;" {% else %} style="display:none;" {% endif %}>
@@ -10,16 +14,18 @@
         </div>
         <div class="col-md-8 pt-3 pt-md-0">
             <div class="row justify-content-center">
-                <span class="col-6 col-sm-4 d-flex justify-content-center fw-bold">
+                <span class="col-6 col-sm-4 d-flex justify-content-center fw-bold"
+                data-bs-toggle="tooltip" data-bs-placement="auto" title="{{ tool_tips.bat_avg }}">
                     {{ table_headers.bat_avg }}: 
                 </span>
-                <span class="col-6 col-sm-4 d-flex justify-content-center fw-bold">
+                <span class="col-6 col-sm-4 d-flex justify-content-center fw-bold"
+                data-bs-toggle="tooltip" data-bs-placement="auto" title="{{ tool_tips.bat_rate_avg }}">
                     {{ table_headers.bat_rate_avg }}:
                 </span>
             </div>
             <div class="row justify-content-center">
                 <span class="col-6 col-sm-4 d-flex justify-content-center">
-                    {{ career.bat_career}}/{{ career.bat_peak}}/{{ career.bat_avg}}
+                 {{ career.bat_career}}/{{ career.bat_peak}}/{{ career.bat_avg}}
                 </span>
                 <span class="col-6 col-sm-4 d-flex justify-content-center">
                     {{ career.bat_rate_career}}/{{ career.bat_rate_peak}}/{{ career.bat_rate_avg}}
@@ -30,7 +36,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="table-responsive-md">
-                <table class="table table-sm table-hover">
+                <table class="table table-primary table-striped table-sm table-hover">
                     <thead>
                         <tr>
                             <th scope="col">Year</th>
@@ -76,11 +82,13 @@
         </div>
         <div class="col-md-8 pt-3 pt-md-0">
             <div class="row justify-content-center">
-                <span class="col-6 col-sm-4 d-flex justify-content-center fw-bold">
-                    fJAWS: 
+                <span class="col-6 col-sm-4 d-flex justify-content-center fw-bold"
+                data-bs-toggle="tooltip" data-bs-placement="auto" title="{{ tool_tips.pit_avg}}">
+                    {{ table_headers.pit_avg }}: 
                 </span>
-                <span class="col-6 col-sm-4 d-flex justify-content-center fw-bold">
-                    fRateJAWS:
+                <span class="col-6 col-sm-4 d-flex justify-content-center fw-bold"
+                data-bs-toggle="tooltip" data-bs-placement="auto" title="{{ tool_tips.pit_rate_avg}}">
+                    {{ table_headers.pit_rate_avg }}:
                 </span>
             </div>
             <div class="row justify-content-center">
@@ -96,7 +104,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="table-responsive-md">
-                <table class="table table-sm table-hover">
+                <table class="table table-primary table-striped table-sm table-hover">
                     <thead>
                         <tr>
                             <th scope="col">Year</th>
