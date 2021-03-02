@@ -1,0 +1,129 @@
+{% extends "blog/base.html" %}
+{% load static %}
+
+{% block title %}
+Home
+{% endblock %}
+
+{% block body %}
+<div class="list-group list-group-horizontal border-0 d-flex justify-content-center pb-4">
+    <li class="list-group-item border-0 bg-trans pe-2">
+        <a href="https://github.com/karovda" class="text-decoration-none text-body">
+            <img src="{% static 'images/github.svg' %}">
+            Github
+        </a>
+    </li>
+    <li class="list-group-item border-0 bg-trans">
+        <a href="https://linkedin.com/in/tim-martin-hello" class="text-decoration-none text-body">
+            <img src="{% static 'images/linkedin.svg' %}">
+            Linkedin
+        </a>
+    </li>
+</div>
+
+<div class="d-flex flex-column align-items-center pt-md-5 pb-md-5 pb-3">
+    <p>Hi, I'm</p>
+
+    <h1 class="home-name-heading pb-3 text-primary">Tim Martin</h1>
+
+    <p class="lead fs-6 ">
+        musician -> lawyer -> software developer
+    </p>
+</div>
+
+<h4 class="text-primary">
+    My Story
+</h4>
+<p>
+    Before I could write, I began learning the violin. Later, I picked up the piano, trumpet, organ, and other instruments.
+    Through many years of work and the luck of opportunity, I played at Carnegie Hall, the Kennedy Center, and other wonderful places. 
+    I loved music, but after college, my passion for it was dimming;
+    the difficulty of trying to make a career out of music certainly wasn't helping.
+</p>
+<p>
+    So, I decided to pursue another interest and go to law school to become a lawyer.
+    Law school turned out to be quite challenging, but I made it through, and passed the bar.
+    Standing in front of a judge for the first time was both a proud accomplishment and nerve-racking experience.
+    However, the legal work I fell into slowly became unfulfilling.
+    I realized the lack of fulfillment wasn't from any particular legal job, but the field in general.
+    As I was making this realization, I started learning to code.
+</p>
+<h4 class="text-primary">
+    Developer
+</h4>
+<p>
+    It didn't take long before I loved coding.
+    I wanted to keep learning more, while my work in law was draining me.
+    After a year of coding, I quit my job and began learning and developing software full-time.
+    After making many small projects, I built this site to showcase what I'm capable of.
+</p>
+<h4 class="text-primary">
+    Project: Baseball Analysis
+</h4>
+<p class="mb-0">
+    The main addition to this site, my baseball analysis project is a <a href="{% url 'baseball:baseball-home' %}">baseball database</a> containing the career stats of all ~20,000 players who have ever played in MLB along with various analysis of advanced stats.
+    It's features include:
+</p>
+<div class="container">
+    <div class="row">
+        <div class="list-group">
+            <li class="list-group-item bg-trans border-0 pb-0">
+                Async player search bar
+            </li>
+            <li class="list-group-item bg-trans border-0 pt-0 pb-0">
+                Various tables with pagination
+            </li>
+            <li class="list-group-item bg-trans border-0 pt-0">
+                Mobile responsive
+            </li>
+        </div>
+    </div>
+</div>
+
+<p class="pt-2 mb-0">
+    Some of the technologies I use include:
+</p>
+
+<div class="container">
+    <div class="row text-info">
+        <div class="list-group col col-md-3 col-xl-2 pe-0">
+            <li class="list-group-item bg-trans border-0 pb-0 px-2">
+                Python
+            </li>
+            <li class="list-group-item bg-trans border-0 pt-0 pb-0 px-2">
+                Django
+            </li>
+            <li class="list-group-item bg-trans border-0 pt-0 px-2">
+                Pandas
+            </li>
+        </div>
+        <div class="list-group col col-md-3 col-xl-2 pe-0">
+            <li class="list-group-item bg-trans border-0 pb-0 px-2">
+                Javascript (ES6+)
+            </li>
+            <li class="list-group-item bg-trans border-0 pt-0 pb-0 px-2">
+                Bootstrap
+            </li>
+            <li class="list-group-item bg-trans border-0 pt-0 px-2">
+                PostgreSQL
+            </li>
+        </div>
+    </div>
+</div>
+
+<div class="list-group list-group-horizontal border-0 d-flex justify-content-center pt-4 d-md-none">
+    <li class="list-group-item border-0 bg-trans pe-2">
+        <a href="https://github.com/karovda" class="text-decoration-none text-body">
+            <img src="{% static 'images/github.svg' %}">
+            Github
+        </a>
+    </li>
+    <li class="list-group-item border-0 bg-trans">
+        <a href="https://linkedin.com/in/tim-martin-hello" class="text-decoration-none text-body">
+            <img src="{% static 'images/linkedin.svg' %}">
+            Linkedin
+        </a>
+    </li>
+</div>
+
+{% endblock %}
