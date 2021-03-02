@@ -1,10 +1,42 @@
-// $custom-colors: (
-//     "tertiary": ,
-//     "quaternary": ,
-// );
 
-$primary: #133aac;
-$secondary: #ff7c00;
-
+$primary: #2a1680;
+$secondary: #ea6b01;
+$info: #018d8d;
+$success: #ba980b;
 
 @import "../../node_modules/bootstrap/scss/bootstrap";
+
+@media only screen and (min-width: 768px) {
+    .player-search-result-name {
+        min-width: 280px;
+    }
+    .player-search-result-years {
+        min-width: 105px;
+    }
+    .home-name-heading {
+        font-size: 4rem;
+    }
+}
+
+body {
+    min-width: 320px;
+}
+
+.dropdown-item-primary-color:hover,
+.dropdown-item-primary-color:focus,
+.dropdown-item-primary-color:active {
+    background-image: none;
+    background-color: $primary;
+    color: white;
+}
+
+@media only screen and (max-width: 767px) {
+    .home-name-heading {
+        font-size: calc(2rem + 1.5vw);
+    }
+}
+
+
+.bg-trans {
+    background-color: transparent;
+}
