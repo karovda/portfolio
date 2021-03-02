@@ -129,23 +129,24 @@ class CareerStats(models.Model):
 
 
 class StatDescriptions(models.Model):
+    id = models.IntegerField(primary_key=True)
     description_type = models.TextField(blank=False, null=False, default="")
-    career_pas = models.TextField(blank=False, null=False, default="")
-    peak_pas = models.TextField(blank=False, null=False, default="")
     bat_career = models.TextField(blank=False, null=False, default="")
     bat_peak = models.TextField(blank=False, null=False, default="")
     bat_avg = models.TextField(blank=False, null=False, default="")
     bat_rate_career = models.TextField(blank=False, null=False, default="")
     bat_rate_peak = models.TextField(blank=False, null=False, default="")
     bat_rate_avg = models.TextField(blank=False, null=False, default="")
-    career_ip = models.TextField(blank=False, null=False, default="")
-    peak_ip = models.TextField(blank=False, null=False, default="")
     pit_career = models.TextField(blank=False, null=False, default="")
     pit_peak = models.TextField(blank=False, null=False, default="")
     pit_avg = models.TextField(blank=False, null=False, default="")
     pit_rate_career = models.TextField(blank=False, null=False, default="")
     pit_rate_peak = models.TextField(blank=False, null=False, default="")
     pit_rate_avg = models.TextField(blank=False, null=False, default="")
+    career_ip = models.TextField(blank=False, null=False, default="")
+    career_pas = models.TextField(blank=False, null=False, default="")
+    peak_pas = models.TextField(blank=False, null=False, default="")
+    peak_ip = models.TextField(blank=False, null=False, default="")
 
     class Meta:
         managed = True
